@@ -19,6 +19,7 @@ type StencilMode C.GLenum
 type TestFunc C.GLenum
 type StencilOperation C.GLenum
 type Face C.GLenum
+type Facing C.GLenum
 type HintType C.GLenum
 type HintValue C.GLenum
 
@@ -33,9 +34,6 @@ const (
 	TRUE  = C.GL_TRUE
 
 	CURRENT_VERTEX_ATTRIB = C.GL_CURRENT_VERTEX_ATTRIB
-
-	CW  = C.GL_CW
-	CCW = C.GL_CCW
 
 	LINE_WIDTH                   = C.GL_LINE_WIDTH
 	ALIASED_POINT_SIZE_RANGE     = C.GL_ALIASED_POINT_SIZE_RANGE
@@ -260,6 +258,9 @@ const (
 	GEQUAL            = C.GL_GEQUAL
 	ALWAYS            = C.GL_ALWAYS
 
+	CW  Facing = C.GL_CW
+	CCW        = C.GL_CCW
+
 	FRONT          Face = C.GL_FRONT
 	BACK                = C.GL_BACK
 	FRONT_AND_BACK      = C.GL_FRONT_AND_BACK
@@ -377,6 +378,14 @@ func BlendFuncSeparate(srcRGB, dstRGB, srcAlpha, dstAlpha BlendFactor) {
 	C.glBlendFuncSeparate(C.GLenum(srcRGB), C.GLenum(dstRGB), C.GLenum(srcAlpha), C.GLenum(dstAlpha))
 }
 
+func CullFace(mode Face) {
+	C.glCullFace(C.GLenum(mode))
+}
+
+func FrontFace(mode Facing) {
+	C.glFrontFace(C.GLenum(mode))
+}
+
 func DepthFunc(f TestFunc) {
 	C.glDepthFunc(C.GLenum(f))
 }
@@ -433,10 +442,6 @@ func StencilOpSeparate(face Face, fail, zfail, zpass StencilOperation) {
 // 	C.glColorMask(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha)
 // }
 
-// func CullFace(mode int) {
-// 	C.glCullFace(GLenum mode)
-// }
-
 // func DeleteFramebuffers(GLsizei n, framebuffers []uint) {
 // 	C.glDeleteFramebuffers(GLsizei n, const GLuint* framebuffers)
 // }
@@ -451,10 +456,6 @@ func StencilOpSeparate(face Face, fail, zfail, zpass StencilOperation) {
 
 // func FramebufferTexture2D(target int, attachment int, textarget int, texture uint, level int) {
 // 	C.glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level)
-// }
-
-// func FrontFace(mode int) {
-// 	C.glFrontFace(GLenum mode)
 // }
 
 // func GenFramebuffers(GLsizei n) []uint {
