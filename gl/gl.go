@@ -19,6 +19,8 @@ type StencilMode C.GLenum
 type TestFunc C.GLenum
 type StencilOperation C.GLenum
 type Face C.GLenum
+type HintType C.GLenum
+type HintValue C.GLenum
 
 const (
 	ES_VERSION_2_0 = C.GL_ES_VERSION_2_0
@@ -84,12 +86,6 @@ const (
 
 	NUM_COMPRESSED_TEXTURE_FORMATS = C.GL_NUM_COMPRESSED_TEXTURE_FORMATS
 	COMPRESSED_TEXTURE_FORMATS     = C.GL_COMPRESSED_TEXTURE_FORMATS
-
-	DONT_CARE = C.GL_DONT_CARE
-	FASTEST   = C.GL_FASTEST
-	NICEST    = C.GL_NICEST
-
-	GENERATE_MIPMAP_HINT = C.GL_GENERATE_MIPMAP_HINT
 
 	FRAGMENT_SHADER                  = C.GL_FRAGMENT_SHADER
 	VERTEX_SHADER                    = C.GL_VERTEX_SHADER
@@ -211,6 +207,12 @@ const (
 	VERSION             = C.GL_VERSION
 	EXTENSIONS          = C.GL_EXTENSIONS
 
+	GENERATE_MIPMAP_HINT HintType = C.GL_GENERATE_MIPMAP_HINT
+
+	DONT_CARE HintValue = C.GL_DONT_CARE
+	FASTEST             = C.GL_FASTEST
+	NICEST              = C.GL_NICEST
+
 	CULL_FACE                Capability = C.GL_CULL_FACE
 	BLEND                               = C.GL_BLEND
 	DITHER                              = C.GL_DITHER
@@ -297,6 +299,10 @@ func GetError() Error {
 
 func GetString(name InfoType) string {
 	return C.GoString((*C.char)(unsafe.Pointer(C.glGetString(C.GLenum(name)))))
+}
+
+func Hint(hint HintType, value HintValue) {
+	C.glHint(C.GLenum(hint), C.GLenum(value))
 }
 
 func Finish() {
@@ -489,10 +495,6 @@ func StencilOpSeparate(face Face, fail, zfail, zpass StencilOperation) {
 
 // func GetVertexAttribPointerv(index uint, pname int, GLvoid** pointer) {
 // 	C.glGetVertexAttribPointerv(GLuint index, GLenum pname, GLvoid** pointer)
-// }
-
-// func Hint(target int, mode int) {
-// 	C.glHint(GLenum target, GLenum mode)
 // }
 
 // GL_APICALL GLboolean    GL_APIENTRY glIsBuffer (GLuint buffer);
