@@ -5,6 +5,7 @@ package gl
 import "C"
 
 import (
+	"image"
 	"unsafe"
 )
 
@@ -466,6 +467,22 @@ func PixelStorei(pname Packing, param int) {
 	C.glPixelStorei(C.GLenum(pname), C.GLint(param))
 }
 
+func ReadRGBA(image *image.RGBA) {
+	C.glReadPixels(C.GLint(image.Rect.Min.X), C.GLint(image.Rect.Min.Y),
+		C.GLsizei(image.Rect.Dx()), C.GLsizei(image.Rect.Dy()),
+		C.GLenum(C.GL_RGBA), C.GLenum(C.GL_UNSIGNED_BYTE), unsafe.Pointer(&image.Pix[0]))
+}
+
+func ReadAlpha(image *image.Alpha) {
+	C.glReadPixels(C.GLint(image.Rect.Min.X), C.GLint(image.Rect.Min.Y),
+		C.GLsizei(image.Rect.Dx()), C.GLsizei(image.Rect.Dy()),
+		C.GLenum(C.GL_ALPHA), C.GLenum(C.GL_UNSIGNED_BYTE), unsafe.Pointer(&image.Pix[0]))
+}
+
+// func ReadPixels(x, y, width, height int, format int, type int, GLvoid* pixels) {
+// 	C.glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid* pixels)
+// }
+
 // func BindFramebuffer(target int, framebuffer uint) {
 // 	C.glBindFramebuffer(GLenum target, GLuint framebuffer)
 // }
@@ -541,9 +558,6 @@ func PixelStorei(pname Packing, param int) {
 // GL_APICALL GLboolean    GL_APIENTRY glIsRenderbuffer (GLuint renderbuffer);
 // GL_APICALL GLboolean    GL_APIENTRY glIsShader (GLuint shader);
 // GL_APICALL GLboolean    GL_APIENTRY glIsTexture (GLuint texture);
-// func ReadPixels(GLint x, y int, GLsizei width, GLsizei height, format int, type int, GLvoid* pixels) {
-// 	C.glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid* pixels)
-// }
 
 // func RenderbufferStorage(target int, internalformat int, GLsizei width, GLsizei height) {
 // 	C.glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei width, GLsizei height)
