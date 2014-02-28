@@ -443,6 +443,10 @@ func StencilOpSeparate(face Face, fail, zfail, zpass StencilOperation) {
 	C.glStencilOpSeparate(C.GLenum(face), C.GLenum(fail), C.GLenum(zfail), C.GLenum(zpass))
 }
 
+func LineWidth(width float32) {
+	C.glLineWidth(C.GLfloat(width))
+}
+
 func SampleCoverage(value float32, invert bool) {
 	b := C.GLboolean(C.GL_FALSE)
 	if invert {
@@ -462,10 +466,6 @@ func SampleCoverage(value float32, invert bool) {
 
 // func CheckFramebufferStatus(target int) int {
 // 	return C.glCheckFramebufferStatus(target)
-// }
-
-// func ColorMask(red, green, blue, alpha bool) {
-// 	C.glColorMask(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha)
 // }
 
 // func DeleteFramebuffers(GLsizei n, framebuffers []uint) {
@@ -531,10 +531,6 @@ func SampleCoverage(value float32, invert bool) {
 // GL_APICALL GLboolean    GL_APIENTRY glIsRenderbuffer (GLuint renderbuffer);
 // GL_APICALL GLboolean    GL_APIENTRY glIsShader (GLuint shader);
 // GL_APICALL GLboolean    GL_APIENTRY glIsTexture (GLuint texture);
-// func LineWidth(GLfloat width) {
-// 	C.glLineWidth(GLfloat width)
-// }
-
 // func PixelStorei(pname int, param int) {
 // 	C.glPixelStorei(GLenum pname, GLint param)
 // }
