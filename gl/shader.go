@@ -53,11 +53,11 @@ func (program *Program) BindAttribLocation(attrib VertexAttrib, name string) {
 	C.glBindAttribLocation(program.id, attrib.Index(), (*C.GLchar)(cstr))
 }
 
-func (program *Program) DeleteProgram() {
+func (program *Program) Delete() {
 	C.glDeleteProgram(program.id)
 }
 
-func (shader Shader) DeleteShader() {
+func (shader Shader) Delete() {
 	C.glDeleteShader(C.GLuint(shader))
 }
 
