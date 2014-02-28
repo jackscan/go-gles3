@@ -15,7 +15,10 @@ type DrawMode C.GLenum
 type BlendMode C.GLenum
 type BlendFactor C.GLenum
 type Capability C.GLenum
+type StencilMode C.GLenum
 type TestFunc C.GLenum
+type StencilOperation C.GLenum
+type Face C.GLenum
 
 const (
 	ES_VERSION_2_0 = C.GL_ES_VERSION_2_0
@@ -28,10 +31,6 @@ const (
 	TRUE  = C.GL_TRUE
 
 	CURRENT_VERTEX_ATTRIB = C.GL_CURRENT_VERTEX_ATTRIB
-
-	FRONT          = C.GL_FRONT
-	BACK           = C.GL_BACK
-	FRONT_AND_BACK = C.GL_FRONT_AND_BACK
 
 	CW  = C.GL_CW
 	CCW = C.GL_CCW
@@ -112,14 +111,6 @@ const (
 	ACTIVE_ATTRIBUTE_MAX_LENGTH      = C.GL_ACTIVE_ATTRIBUTE_MAX_LENGTH
 	SHADING_LANGUAGE_VERSION         = C.GL_SHADING_LANGUAGE_VERSION
 	CURRENT_PROGRAM                  = C.GL_CURRENT_PROGRAM
-
-	KEEP      = C.GL_KEEP
-	REPLACE   = C.GL_REPLACE
-	INCR      = C.GL_INCR
-	DECR      = C.GL_DECR
-	INVERT    = C.GL_INVERT
-	INCR_WRAP = C.GL_INCR_WRAP
-	DECR_WRAP = C.GL_DECR_WRAP
 
 	VERTEX_ATTRIB_ARRAY_ENABLED        = C.GL_VERTEX_ATTRIB_ARRAY_ENABLED
 	VERTEX_ATTRIB_ARRAY_SIZE           = C.GL_VERTEX_ATTRIB_ARRAY_SIZE
@@ -267,6 +258,19 @@ const (
 	GEQUAL            = C.GL_GEQUAL
 	ALWAYS            = C.GL_ALWAYS
 
+	FRONT          Face = C.GL_FRONT
+	BACK                = C.GL_BACK
+	FRONT_AND_BACK      = C.GL_FRONT_AND_BACK
+
+	RESET     StencilOperation = C.GL_ZERO
+	KEEP                       = C.GL_KEEP
+	REPLACE                    = C.GL_REPLACE
+	INCR                       = C.GL_INCR
+	DECR                       = C.GL_DECR
+	INVERT                     = C.GL_INVERT
+	INCR_WRAP                  = C.GL_INCR_WRAP
+	DECR_WRAP                  = C.GL_DECR_WRAP
+
 	BYTE           DataType = C.GL_BYTE
 	UNSIGNED_BYTE           = C.GL_UNSIGNED_BYTE
 	SHORT                   = C.GL_SHORT
@@ -373,6 +377,30 @@ func DepthMask(flag bool) {
 
 func DepthRangef(zNear, zFar float32) {
 	C.glDepthRangef(C.GLclampf(zNear), C.GLclampf(zFar))
+}
+
+func StencilFunc(f TestFunc, ref int32, mask uint32) {
+	C.glStencilFunc(C.GLenum(f), C.GLint(ref), C.GLuint(mask))
+}
+
+func StencilFuncSeparate(face Face, f TestFunc, ref int32, mask uint32) {
+	C.glStencilFuncSeparate(C.GLenum(face), C.GLenum(f), C.GLint(ref), C.GLuint(mask))
+}
+
+func StencilMask(mask uint32) {
+	C.glStencilMask(C.GLuint(mask))
+}
+
+func StencilMaskSeparate(face Face, mask uint32) {
+	C.glStencilMaskSeparate(C.GLenum(face), C.GLuint(mask))
+}
+
+func StencilOp(fail, zfail, zpass StencilOperation) {
+	C.glStencilOp(C.GLenum(fail), C.GLenum(zfail), C.GLenum(zpass))
+}
+
+func StencilOpSeparate(face Face, fail, zfail, zpass StencilOperation) {
+	C.glStencilOpSeparate(C.GLenum(face), C.GLenum(fail), C.GLenum(zfail), C.GLenum(zpass))
 }
 
 // func BindFramebuffer(target int, framebuffer uint) {
@@ -492,30 +520,6 @@ func DepthRangef(zNear, zFar float32) {
 
 // func Scissor(GLint x, y int, GLsizei width, GLsizei height) {
 // 	C.glScissor(GLint x, GLint y, GLsizei width, GLsizei height)
-// }
-
-// func StencilFunc(func int, ref int, mask uint) {
-// 	C.glStencilFunc(GLenum func, ref int, mask uint)
-// }
-
-// func StencilFuncSeparate(face int, func int, ref int, mask uint) {
-// 	C.glStencilFuncSeparate(GLenum face, GLenum func, ref int, mask uint)
-// }
-
-// func StencilMask(mask uint) {
-// 	C.glStencilMask(GLuint mask)
-// }
-
-// func StencilMaskSeparate(face int, mask uint) {
-// 	C.glStencilMaskSeparate(GLenum face, GLuint mask)
-// }
-
-// func StencilOp(fail int, zfail int, zpass int) {
-// 	C.glStencilOp(GLenum fail, GLenum zfail, GLenum zpass)
-// }
-
-// func StencilOpSeparate(face int, fail int, zfail int, zpass int) {
-// 	C.glStencilOpSeparate(GLenum face, GLenum fail, GLenum zfail, GLenum zpass)
 // }
 
 // func Viewport(GLint x, y int, GLsizei width, GLsizei height) {
