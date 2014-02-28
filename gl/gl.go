@@ -8,10 +8,12 @@ import (
 	"unsafe"
 )
 
+type Error C.GLenum
 type DataType C.GLenum
 type InfoType C.GLenum
 type DrawMode C.GLenum
-type Error C.GLenum
+type BlendMode C.GLenum
+type BlendFactor C.GLenum
 type Capability C.GLenum
 
 const (
@@ -23,37 +25,6 @@ const (
 
 	FALSE = C.GL_FALSE
 	TRUE  = C.GL_TRUE
-
-	ZERO                = C.GL_ZERO
-	ONE                 = C.GL_ONE
-	SRC_COLOR           = C.GL_SRC_COLOR
-	ONE_MINUS_SRC_COLOR = C.GL_ONE_MINUS_SRC_COLOR
-	SRC_ALPHA           = C.GL_SRC_ALPHA
-	ONE_MINUS_SRC_ALPHA = C.GL_ONE_MINUS_SRC_ALPHA
-	DST_ALPHA           = C.GL_DST_ALPHA
-	ONE_MINUS_DST_ALPHA = C.GL_ONE_MINUS_DST_ALPHA
-
-	DST_COLOR           = C.GL_DST_COLOR
-	ONE_MINUS_DST_COLOR = C.GL_ONE_MINUS_DST_COLOR
-	SRC_ALPHA_SATURATE  = C.GL_SRC_ALPHA_SATURATE
-
-	FUNC_ADD             = C.GL_FUNC_ADD
-	BLEND_EQUATION       = C.GL_BLEND_EQUATION
-	BLEND_EQUATION_RGB   = C.GL_BLEND_EQUATION_RGB
-	BLEND_EQUATION_ALPHA = C.GL_BLEND_EQUATION_ALPHA
-
-	FUNC_SUBTRACT         = C.GL_FUNC_SUBTRACT
-	FUNC_REVERSE_SUBTRACT = C.GL_FUNC_REVERSE_SUBTRACT
-
-	BLEND_DST_RGB            = C.GL_BLEND_DST_RGB
-	BLEND_SRC_RGB            = C.GL_BLEND_SRC_RGB
-	BLEND_DST_ALPHA          = C.GL_BLEND_DST_ALPHA
-	BLEND_SRC_ALPHA          = C.GL_BLEND_SRC_ALPHA
-	CONSTANT_COLOR           = C.GL_CONSTANT_COLOR
-	ONE_MINUS_CONSTANT_COLOR = C.GL_ONE_MINUS_CONSTANT_COLOR
-	CONSTANT_ALPHA           = C.GL_CONSTANT_ALPHA
-	ONE_MINUS_CONSTANT_ALPHA = C.GL_ONE_MINUS_CONSTANT_ALPHA
-	BLEND_COLOR              = C.GL_BLEND_COLOR
 
 	CURRENT_VERTEX_ATTRIB = C.GL_CURRENT_VERTEX_ATTRIB
 
@@ -252,6 +223,16 @@ const (
 	SAMPLER_2D   = C.GL_SAMPLER_2D
 	SAMPLER_CUBE = C.GL_SAMPLER_CUBE
 
+	BLEND_EQUATION       = C.GL_BLEND_EQUATION
+	BLEND_EQUATION_RGB   = C.GL_BLEND_EQUATION_RGB
+	BLEND_EQUATION_ALPHA = C.GL_BLEND_EQUATION_ALPHA
+
+	BLEND_DST_RGB   = C.GL_BLEND_DST_RGB
+	BLEND_SRC_RGB   = C.GL_BLEND_SRC_RGB
+	BLEND_DST_ALPHA = C.GL_BLEND_DST_ALPHA
+	BLEND_SRC_ALPHA = C.GL_BLEND_SRC_ALPHA
+	BLEND_COLOR     = C.GL_BLEND_COLOR
+
 	VENDOR     InfoType = C.GL_VENDOR
 	RENDERER            = C.GL_RENDERER
 	VERSION             = C.GL_VERSION
@@ -274,6 +255,26 @@ const (
 	TRIANGLES               = C.GL_TRIANGLES
 	TRIANGLE_STRIP          = C.GL_TRIANGLE_STRIP
 	TRIANGLE_FAN            = C.GL_TRIANGLE_FAN
+
+	FUNC_ADD              BlendMode = C.GL_FUNC_ADD
+	FUNC_SUBTRACT                   = C.GL_FUNC_SUBTRACT
+	FUNC_REVERSE_SUBTRACT           = C.GL_FUNC_REVERSE_SUBTRACT
+
+	ZERO                     BlendFactor = C.GL_ZERO
+	ONE                                  = C.GL_ONE
+	SRC_COLOR                            = C.GL_SRC_COLOR
+	ONE_MINUS_SRC_COLOR                  = C.GL_ONE_MINUS_SRC_COLOR
+	SRC_ALPHA                            = C.GL_SRC_ALPHA
+	ONE_MINUS_SRC_ALPHA                  = C.GL_ONE_MINUS_SRC_ALPHA
+	DST_ALPHA                            = C.GL_DST_ALPHA
+	ONE_MINUS_DST_ALPHA                  = C.GL_ONE_MINUS_DST_ALPHA
+	DST_COLOR                            = C.GL_DST_COLOR
+	ONE_MINUS_DST_COLOR                  = C.GL_ONE_MINUS_DST_COLOR
+	SRC_ALPHA_SATURATE                   = C.GL_SRC_ALPHA_SATURATE
+	CONSTANT_COLOR                       = C.GL_CONSTANT_COLOR
+	ONE_MINUS_CONSTANT_COLOR             = C.GL_ONE_MINUS_CONSTANT_COLOR
+	CONSTANT_ALPHA                       = C.GL_CONSTANT_ALPHA
+	ONE_MINUS_CONSTANT_ALPHA             = C.GL_ONE_MINUS_CONSTANT_ALPHA
 
 	BYTE           DataType = C.GL_BYTE
 	UNSIGNED_BYTE           = C.GL_UNSIGNED_BYTE
@@ -347,32 +348,32 @@ func DrawElementsByte(mode DrawMode, count int, indices []uint8) {
 	C.glDrawElements(C.GLenum(mode), C.GLsizei(count), C.GLenum(C.GL_UNSIGNED_BYTE), unsafe.Pointer(&indices[0]))
 }
 
+func BlendColor(red, green, blue, alpha float32) {
+	C.glBlendColor(C.GLclampf(red), C.GLclampf(green), C.GLclampf(blue), C.GLclampf(alpha))
+}
+
+func BlendEquation(mode BlendMode) {
+	C.glBlendEquation(C.GLenum(mode))
+}
+
+func BlendEquationSeparate(modeRGB, modeAlpha BlendMode) {
+	C.glBlendEquationSeparate(C.GLenum(modeRGB), C.GLenum(modeAlpha))
+}
+
+func BlendFunc(sfactor, dfactor BlendFactor) {
+	C.glBlendFunc(C.GLenum(sfactor), C.GLenum(dfactor))
+}
+
+func BlendFuncSeparate(srcRGB, dstRGB, srcAlpha, dstAlpha BlendFactor) {
+	C.glBlendFuncSeparate(C.GLenum(srcRGB), C.GLenum(dstRGB), C.GLenum(srcAlpha), C.GLenum(dstAlpha))
+}
+
 // func BindFramebuffer(target int, framebuffer uint) {
 // 	C.glBindFramebuffer(GLenum target, GLuint framebuffer)
 // }
 
 // func BindRenderbuffer(target int, renderbuffer uint) {
 // 	C.glBindRenderbuffer(GLenum target, GLuint renderbuffer)
-// }
-
-// func BlendColor(red, green, blue, alpha float32) {
-// 	C.glBlendColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha)
-// }
-
-// func BlendEquation(mode int) {
-// 	C.glBlendEquation( GLenum mode )
-// }
-
-// func BlendEquationSeparate(modeRGB int, modeAlpha int) {
-// 	C.glBlendEquationSeparate(GLenum modeRGB, GLenum modeAlpha)
-// }
-
-// func BlendFunc(sfactor int, dfactor int) {
-// 	C.glBlendFunc(GLenum sfactor, GLenum dfactor)
-// }
-
-// func BlendFuncSeparate(srcRGB, dstRGB, srcAlpha, dstAlpha int) {
-// 	C.glBlendFuncSeparate(GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha)
 // }
 
 // func CheckFramebufferStatus(target int) int {
