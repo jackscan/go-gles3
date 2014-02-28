@@ -447,6 +447,10 @@ func LineWidth(width float32) {
 	C.glLineWidth(C.GLfloat(width))
 }
 
+func PolygonOffset(factor, units float32) {
+	C.glPolygonOffset(C.GLfloat(factor), C.GLfloat(units))
+}
+
 func SampleCoverage(value float32, invert bool) {
 	b := C.GLboolean(C.GL_FALSE)
 	if invert {
@@ -533,10 +537,6 @@ func SampleCoverage(value float32, invert bool) {
 // GL_APICALL GLboolean    GL_APIENTRY glIsTexture (GLuint texture);
 // func PixelStorei(pname int, param int) {
 // 	C.glPixelStorei(GLenum pname, GLint param)
-// }
-
-// func PolygonOffset(GLfloat factor, GLfloat units) {
-// 	C.glPolygonOffset(GLfloat factor, GLfloat units)
 // }
 
 // func ReadPixels(GLint x, y int, GLsizei width, GLsizei height, format int, type int, GLvoid* pixels) {
