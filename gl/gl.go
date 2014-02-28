@@ -315,6 +315,14 @@ func Disable(c Capability) {
 	C.glDisable(C.GLenum(c))
 }
 
+func Scissor(x, y, width, height int) {
+	C.glScissor(C.GLint(x), C.GLint(y), C.GLsizei(width), C.GLsizei(height))
+}
+
+func Viewport(x, y, width, height int) {
+	C.glViewport(C.GLint(x), C.GLint(y), C.GLsizei(width), C.GLsizei(height))
+}
+
 func Clear(mask int) {
 	C.glClear(C.GLbitfield(mask))
 }
@@ -516,12 +524,4 @@ func StencilOpSeparate(face Face, fail, zfail, zpass StencilOperation) {
 
 // func SampleCoverage(value float32, GLboolean invert) {
 // 	C.glSampleCoverage(GLclampf value, GLboolean invert)
-// }
-
-// func Scissor(GLint x, y int, GLsizei width, GLsizei height) {
-// 	C.glScissor(GLint x, GLint y, GLsizei width, GLsizei height)
-// }
-
-// func Viewport(GLint x, y int, GLsizei width, GLsizei height) {
-// 	C.glViewport(GLint x, GLint y, GLsizei width, GLsizei height)
 // }
