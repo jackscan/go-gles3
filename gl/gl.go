@@ -426,6 +426,15 @@ func StencilOpSeparate(face Face, fail, zfail, zpass StencilOperation) {
 	C.glStencilOpSeparate(C.GLenum(face), C.GLenum(fail), C.GLenum(zfail), C.GLenum(zpass))
 }
 
+func SampleCoverage(value float32, invert bool) {
+	b := C.GLboolean(C.GL_FALSE)
+	if invert {
+		b = C.GLboolean(C.GL_TRUE)
+	}
+
+	C.glSampleCoverage(C.GLclampf(value), C.GLboolean(b))
+}
+
 // func BindFramebuffer(target int, framebuffer uint) {
 // 	C.glBindFramebuffer(GLenum target, GLuint framebuffer)
 // }
@@ -523,8 +532,4 @@ func StencilOpSeparate(face Face, fail, zfail, zpass StencilOperation) {
 
 // func RenderbufferStorage(target int, internalformat int, GLsizei width, GLsizei height) {
 // 	C.glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei width, GLsizei height)
-// }
-
-// func SampleCoverage(value float32, GLboolean invert) {
-// 	C.glSampleCoverage(GLclampf value, GLboolean invert)
 // }
