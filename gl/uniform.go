@@ -70,6 +70,22 @@ func (u Uniform2f) Setv(data []float32) {
 	C.glUniform2fv(u.location, C.GLsizei(len(data)/2), (*C.GLfloat)(&data[0]))
 }
 
+func (u Uniform3f) Set(x, y, z float32) {
+	C.glUniform3f(u.location, C.GLfloat(x), C.GLfloat(y), C.GLfloat(z))
+}
+
+func (u Uniform3f) Setv(data []float32) {
+	C.glUniform3fv(u.location, C.GLsizei(len(data)/3), (*C.GLfloat)(&data[0]))
+}
+
+func (u Uniform4f) Set(x, y, z, w float32) {
+	C.glUniform4f(u.location, C.GLfloat(x), C.GLfloat(y), C.GLfloat(z), C.GLfloat(w))
+}
+
+func (u Uniform4f) Setv(data []float32) {
+	C.glUniform4fv(u.location, C.GLsizei(len(data)/4), (*C.GLfloat)(&data[0]))
+}
+
 func (u Uniform1i) Set(x int32) {
 	C.glUniform1i(u.location, C.GLint(x))
 }
