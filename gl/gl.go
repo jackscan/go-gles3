@@ -12,6 +12,7 @@ type DataType C.GLenum
 type InfoType C.GLenum
 type DrawMode C.GLenum
 type Error C.GLenum
+type Capability C.GLenum
 
 const (
 	ES_VERSION_2_0 = C.GL_ES_VERSION_2_0
@@ -256,6 +257,16 @@ const (
 	VERSION             = C.GL_VERSION
 	EXTENSIONS          = C.GL_EXTENSIONS
 
+	CULL_FACE                Capability = C.GL_CULL_FACE
+	BLEND                               = C.GL_BLEND
+	DITHER                              = C.GL_DITHER
+	STENCIL_TEST                        = C.GL_STENCIL_TEST
+	DEPTH_TEST                          = C.GL_DEPTH_TEST
+	SCISSOR_TEST                        = C.GL_SCISSOR_TEST
+	POLYGON_OFFSET_FILL                 = C.GL_POLYGON_OFFSET_FILL
+	SAMPLE_ALPHA_TO_COVERAGE            = C.GL_SAMPLE_ALPHA_TO_COVERAGE
+	SAMPLE_COVERAGE                     = C.GL_SAMPLE_COVERAGE
+
 	POINTS         DrawMode = C.GL_POINTS
 	LINES                   = C.GL_LINES
 	LINE_LOOP               = C.GL_LINE_LOOP
@@ -298,6 +309,14 @@ func Finish() {
 
 func Flush() {
 	C.glFlush()
+}
+
+func Enable(c Capability) {
+	C.glEnable(C.GLenum(c))
+}
+
+func Disable(c Capability) {
+	C.glDisable(C.GLenum(c))
 }
 
 func Clear(mask int) {
@@ -386,14 +405,6 @@ func DrawElementsByte(mode DrawMode, count int, indices []uint8) {
 
 // func DepthRangef(GLclampf zNear, zFar float32) {
 // 	C.glDepthRangef(GLclampf zNear, GLclampf zFar)
-// }
-
-// func Disable(cap int) {
-// 	C.glDisable(GLenum cap)
-// }
-
-// func Enable(cap int) {
-// 	C.glEnable(GLenum cap)
 // }
 
 // func FramebufferRenderbuffer(target int, attachment int, renderbuffertarget int, renderbuffer uint) {
