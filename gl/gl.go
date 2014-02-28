@@ -15,6 +15,7 @@ type DrawMode C.GLenum
 type BlendMode C.GLenum
 type BlendFactor C.GLenum
 type Capability C.GLenum
+type TestFunc C.GLenum
 
 const (
 	ES_VERSION_2_0 = C.GL_ES_VERSION_2_0
@@ -111,15 +112,6 @@ const (
 	ACTIVE_ATTRIBUTE_MAX_LENGTH      = C.GL_ACTIVE_ATTRIBUTE_MAX_LENGTH
 	SHADING_LANGUAGE_VERSION         = C.GL_SHADING_LANGUAGE_VERSION
 	CURRENT_PROGRAM                  = C.GL_CURRENT_PROGRAM
-
-	NEVER    = C.GL_NEVER
-	LESS     = C.GL_LESS
-	EQUAL    = C.GL_EQUAL
-	LEQUAL   = C.GL_LEQUAL
-	GREATER  = C.GL_GREATER
-	NOTEQUAL = C.GL_NOTEQUAL
-	GEQUAL   = C.GL_GEQUAL
-	ALWAYS   = C.GL_ALWAYS
 
 	KEEP      = C.GL_KEEP
 	REPLACE   = C.GL_REPLACE
@@ -266,6 +258,15 @@ const (
 	CONSTANT_ALPHA                       = C.GL_CONSTANT_ALPHA
 	ONE_MINUS_CONSTANT_ALPHA             = C.GL_ONE_MINUS_CONSTANT_ALPHA
 
+	NEVER    TestFunc = C.GL_NEVER
+	LESS              = C.GL_LESS
+	EQUAL             = C.GL_EQUAL
+	LEQUAL            = C.GL_LEQUAL
+	GREATER           = C.GL_GREATER
+	NOTEQUAL          = C.GL_NOTEQUAL
+	GEQUAL            = C.GL_GEQUAL
+	ALWAYS            = C.GL_ALWAYS
+
 	BYTE           DataType = C.GL_BYTE
 	UNSIGNED_BYTE           = C.GL_UNSIGNED_BYTE
 	SHORT                   = C.GL_SHORT
@@ -358,6 +359,22 @@ func BlendFuncSeparate(srcRGB, dstRGB, srcAlpha, dstAlpha BlendFactor) {
 	C.glBlendFuncSeparate(C.GLenum(srcRGB), C.GLenum(dstRGB), C.GLenum(srcAlpha), C.GLenum(dstAlpha))
 }
 
+func DepthFunc(f TestFunc) {
+	C.glDepthFunc(C.GLenum(f))
+}
+
+func DepthMask(flag bool) {
+	b := C.GLboolean(C.GL_FALSE)
+	if flag {
+		b = C.GLboolean(C.GL_TRUE)
+	}
+	C.glDepthMask(b)
+}
+
+func DepthRangef(zNear, zFar float32) {
+	C.glDepthRangef(C.GLclampf(zNear), C.GLclampf(zFar))
+}
+
 // func BindFramebuffer(target int, framebuffer uint) {
 // 	C.glBindFramebuffer(GLenum target, GLuint framebuffer)
 // }
@@ -384,18 +401,6 @@ func BlendFuncSeparate(srcRGB, dstRGB, srcAlpha, dstAlpha BlendFactor) {
 
 // func DeleteRenderbuffers(GLsizei n, renderbuffers []uint) {
 // 	C.glDeleteRenderbuffers(GLsizei n, const GLuint* renderbuffers)
-// }
-
-// func DepthFunc(func int) {
-// 	C.glDepthFunc(GLenum func)
-// }
-
-// func DepthMask(GLboolean flag) {
-// 	C.glDepthMask(GLboolean flag)
-// }
-
-// func DepthRangef(GLclampf zNear, zFar float32) {
-// 	C.glDepthRangef(GLclampf zNear, GLclampf zFar)
 // }
 
 // func FramebufferRenderbuffer(target int, attachment int, renderbuffertarget int, renderbuffer uint) {
