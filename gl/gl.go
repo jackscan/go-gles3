@@ -22,6 +22,7 @@ type Face C.GLenum
 type Facing C.GLenum
 type HintType C.GLenum
 type HintValue C.GLenum
+type Packing C.GLenum
 
 const (
 	ES_VERSION_2_0 = C.GL_ES_VERSION_2_0
@@ -63,8 +64,6 @@ const (
 	SCISSOR_BOX                  = C.GL_SCISSOR_BOX
 	COLOR_CLEAR_VALUE            = C.GL_COLOR_CLEAR_VALUE
 	COLOR_WRITEMASK              = C.GL_COLOR_WRITEMASK
-	UNPACK_ALIGNMENT             = C.GL_UNPACK_ALIGNMENT
-	PACK_ALIGNMENT               = C.GL_PACK_ALIGNMENT
 	MAX_TEXTURE_SIZE             = C.GL_MAX_TEXTURE_SIZE
 	MAX_VIEWPORT_DIMS            = C.GL_MAX_VIEWPORT_DIMS
 	SUBPIXEL_BITS                = C.GL_SUBPIXEL_BITS
@@ -220,6 +219,9 @@ const (
 	POLYGON_OFFSET_FILL                 = C.GL_POLYGON_OFFSET_FILL
 	SAMPLE_ALPHA_TO_COVERAGE            = C.GL_SAMPLE_ALPHA_TO_COVERAGE
 	SAMPLE_COVERAGE                     = C.GL_SAMPLE_COVERAGE
+
+	UNPACK_ALIGNMENT Packing = C.GL_UNPACK_ALIGNMENT
+	PACK_ALIGNMENT           = C.GL_PACK_ALIGNMENT
 
 	POINTS         DrawMode = C.GL_POINTS
 	LINES                   = C.GL_LINES
@@ -460,6 +462,10 @@ func SampleCoverage(value float32, invert bool) {
 	C.glSampleCoverage(C.GLclampf(value), C.GLboolean(b))
 }
 
+func PixelStorei(pname Packing, param int) {
+	C.glPixelStorei(C.GLenum(pname), C.GLint(param))
+}
+
 // func BindFramebuffer(target int, framebuffer uint) {
 // 	C.glBindFramebuffer(GLenum target, GLuint framebuffer)
 // }
@@ -535,10 +541,6 @@ func SampleCoverage(value float32, invert bool) {
 // GL_APICALL GLboolean    GL_APIENTRY glIsRenderbuffer (GLuint renderbuffer);
 // GL_APICALL GLboolean    GL_APIENTRY glIsShader (GLuint shader);
 // GL_APICALL GLboolean    GL_APIENTRY glIsTexture (GLuint texture);
-// func PixelStorei(pname int, param int) {
-// 	C.glPixelStorei(GLenum pname, GLint param)
-// }
-
 // func ReadPixels(GLint x, y int, GLsizei width, GLsizei height, format int, type int, GLvoid* pixels) {
 // 	C.glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid* pixels)
 // }
