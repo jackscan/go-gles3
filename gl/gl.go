@@ -292,6 +292,14 @@ func GetString(name InfoType) string {
 	return C.GoString((*C.char)(unsafe.Pointer(C.glGetString(C.GLenum(name)))))
 }
 
+func Finish() {
+	C.glFinish()
+}
+
+func Flush() {
+	C.glFlush()
+}
+
 func Clear(mask int) {
 	C.glClear(C.GLbitfield(mask))
 }
@@ -386,14 +394,6 @@ func DrawElementsByte(mode DrawMode, count int, indices []uint8) {
 
 // func Enable(cap int) {
 // 	C.glEnable(GLenum cap)
-// }
-
-// func Finish(void) {
-// 	C.glFinish(void)
-// }
-
-// func Flush(void) {
-// 	C.glFlush(void)
 // }
 
 // func FramebufferRenderbuffer(target int, attachment int, renderbuffertarget int, renderbuffer uint) {
