@@ -378,6 +378,23 @@ func BlendFuncSeparate(srcRGB, dstRGB, srcAlpha, dstAlpha BlendFactor) {
 	C.glBlendFuncSeparate(C.GLenum(srcRGB), C.GLenum(dstRGB), C.GLenum(srcAlpha), C.GLenum(dstAlpha))
 }
 
+func ColorMask(red, green, blue, alpha bool) {
+	r, g, b, a := C.GLboolean(C.GL_FALSE), C.GLboolean(C.GL_FALSE), C.GLboolean(C.GL_FALSE), C.GLboolean(C.GL_FALSE)
+	if red {
+		r = C.GLboolean(C.GL_TRUE)
+	}
+	if green {
+		g = C.GLboolean(C.GL_TRUE)
+	}
+	if blue {
+		b = C.GLboolean(C.GL_TRUE)
+	}
+	if alpha {
+		a = C.GLboolean(C.GL_TRUE)
+	}
+	C.glColorMask(r, g, b, a)
+}
+
 func CullFace(mode Face) {
 	C.glCullFace(C.GLenum(mode))
 }
