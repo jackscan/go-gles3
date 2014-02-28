@@ -1,0 +1,59 @@
+package gl
+
+// #include <GLES2/gl2.h>
+import "C"
+
+import (
+	"unsafe"
+)
+
+type Buffer C.GLuint
+type BufferTarget C.GLenum
+type BufferUsage C.GLenum
+
+const (
+	ARRAY_BUFFER_BINDING         = C.GL_ARRAY_BUFFER_BINDING
+	ELEMENT_ARRAY_BUFFER_BINDING = C.GL_ELEMENT_ARRAY_BUFFER_BINDING
+
+	BUFFER_SIZE  = C.GL_BUFFER_SIZE
+	BUFFER_USAGE = C.GL_BUFFER_USAGE
+
+	ARRAY_BUFFER         BufferTarget = C.GL_ARRAY_BUFFER
+	ELEMENT_ARRAY_BUFFER              = C.GL_ELEMENT_ARRAY_BUFFER
+
+	STREAM_DRAW  BufferUsage = C.GL_STREAM_DRAW
+	STATIC_DRAW              = C.GL_STATIC_DRAW
+	DYNAMIC_DRAW             = C.GL_DYNAMIC_DRAW
+)
+
+func GenBuffers(n int) []Buffer {
+	buffers := make([]Buffer, n)
+	C.glGenBuffers(C.GLsizei(n), (*C.GLuint)(&buffers[0]))
+	return buffers
+}
+
+func GenBuffer() Buffer {
+	buffer := Buffer(0)
+	C.glGenBuffers(C.GLsizei(1), (*C.GLuint)(&buffer))
+	return buffer
+}
+
+func BindBuffer(target BufferTarget, buffer Buffer) {
+	C.glBindBuffer(C.GLenum(target), C.GLuint(buffer))
+}
+
+func BufferDataf(target BufferTarget, data []float32, usage BufferUsage) {
+	C.glBufferData(C.GLenum(target), C.GLsizeiptr(unsafe.Sizeof(data[0])*uintptr(len(data))), unsafe.Pointer(&data[0]), C.GLenum(usage))
+}
+
+// func BufferSubData(target, offset int, data []interface{}) {
+// 	C.glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid* data)
+// }
+
+// func DeleteBuffers(GLsizei n, buffers []uint) {
+// 	C.glDeleteBuffers(GLsizei n, const GLuint* buffers)
+// }
+
+// func GetBufferParameteriv(target int, pname int,  params int) {
+// 	C.glGetBufferParameteriv(GLenum target, GLenum pname, GLint* params)
+// }
