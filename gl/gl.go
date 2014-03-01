@@ -468,15 +468,53 @@ func PixelStorei(pname Packing, param int) {
 }
 
 func ReadRGBA(image *image.RGBA) {
+
+	alignment := C.GLint(0)
+	C.glGetIntegerv(C.GL_PACK_ALIGNMENT, &alignment)
+
+	width := image.Rect.Dx()
+	align := (width * 4) % int(alignment) // align: 4 or 0
+
+	// need smaller alignment
+	if align > 0 {
+		C.glPixelStorei(C.GL_PACK_ALIGNMENT, C.GLint(align))
+	}
+
 	C.glReadPixels(C.GLint(image.Rect.Min.X), C.GLint(image.Rect.Min.Y),
-		C.GLsizei(image.Rect.Dx()), C.GLsizei(image.Rect.Dy()),
-		C.GLenum(C.GL_RGBA), C.GLenum(C.GL_UNSIGNED_BYTE), unsafe.Pointer(&image.Pix[0]))
+		C.GLsizei(width), C.GLsizei(image.Rect.Dy()),
+		C.GL_RGBA, C.GL_UNSIGNED_BYTE, unsafe.Pointer(&image.Pix[0]))
+
+	// restore alignment
+	if align > 0 {
+		C.glPixelStorei(C.GL_PACK_ALIGNMENT, alignment)
+	}
 }
 
 func ReadAlpha(image *image.Alpha) {
+
+	alignment := C.GLint(0)
+	C.glGetIntegerv(C.GL_PACK_ALIGNMENT, &alignment)
+
+	width := image.Rect.Dx()
+	align := C.GLint(1)
+
+	for align < alignment && width%(int(align)*2) == 0 {
+		align *= 2
+	}
+
+	// need smaller alignment
+	if align < alignment {
+		C.glPixelStorei(C.GL_PACK_ALIGNMENT, align)
+	}
+
 	C.glReadPixels(C.GLint(image.Rect.Min.X), C.GLint(image.Rect.Min.Y),
 		C.GLsizei(image.Rect.Dx()), C.GLsizei(image.Rect.Dy()),
-		C.GLenum(C.GL_ALPHA), C.GLenum(C.GL_UNSIGNED_BYTE), unsafe.Pointer(&image.Pix[0]))
+		C.GL_ALPHA, C.GL_UNSIGNED_BYTE, unsafe.Pointer(&image.Pix[0]))
+
+	// restore alignment
+	if align < alignment {
+		C.glPixelStorei(C.GL_PACK_ALIGNMENT, alignment)
+	}
 }
 
 // func ReadPixels(x, y, width, height int, format int, type int, GLvoid* pixels) {
