@@ -472,8 +472,7 @@ func ReadRGBA(image *image.NRGBA) {
 	alignment := C.GLint(0)
 	C.glGetIntegerv(C.GL_PACK_ALIGNMENT, &alignment)
 
-	width := image.Rect.Dx()
-	align := (width * 4) % int(alignment) // align: 4 or 0
+	align := image.Stride % int(alignment) // align: 4 or 0
 
 	// need smaller alignment
 	if align > 0 {
@@ -481,7 +480,7 @@ func ReadRGBA(image *image.NRGBA) {
 	}
 
 	C.glReadPixels(C.GLint(image.Rect.Min.X), C.GLint(image.Rect.Min.Y),
-		C.GLsizei(width), C.GLsizei(image.Rect.Dy()),
+		C.GLsizei(image.Rect.Dx()), C.GLsizei(image.Rect.Dy()),
 		C.GL_RGBA, C.GL_UNSIGNED_BYTE, unsafe.Pointer(&image.Pix[0]))
 
 	// restore alignment
@@ -495,10 +494,9 @@ func ReadAlpha(image *image.Alpha) {
 	alignment := C.GLint(0)
 	C.glGetIntegerv(C.GL_PACK_ALIGNMENT, &alignment)
 
-	width := image.Rect.Dx()
 	align := C.GLint(1)
 
-	for align < alignment && width%(int(align)*2) == 0 {
+	for align < alignment && image.Stride%(int(align)*2) == 0 {
 		align *= 2
 	}
 
