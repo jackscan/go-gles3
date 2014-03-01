@@ -46,6 +46,11 @@ func BufferDataf(target BufferTarget, data []float32, usage BufferUsage) {
 	C.glBufferData(C.GLenum(target), C.GLsizeiptr(unsafe.Sizeof(data[0])*uintptr(len(data))), unsafe.Pointer(&data[0]), C.GLenum(usage))
 }
 
+func (b Buffer) Delete() {
+
+	C.glDeleteBuffers(C.GLsizei(1), (*C.GLuint)(&b))
+}
+
 // func BufferSubData(target, offset int, data []interface{}) {
 // 	C.glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid* data)
 // }
