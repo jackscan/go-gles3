@@ -467,7 +467,7 @@ func PixelStorei(pname Packing, param int) {
 	C.glPixelStorei(C.GLenum(pname), C.GLint(param))
 }
 
-func ReadRGBA(image *image.RGBA) {
+func ReadRGBA(image *image.NRGBA) {
 
 	alignment := C.GLint(0)
 	C.glGetIntegerv(C.GL_PACK_ALIGNMENT, &alignment)
