@@ -142,7 +142,7 @@ func GetTexParameteri(target TextureTarget, pname TextureParameter) int {
 	return int(param)
 }
 
-func TexImage2D(target TextureTarget, level int, internalformat TextureFormat, width, height int, datatype DataType, pixels []interface{}) {
+func TexImage2D(target TextureTarget, level int, internalformat TextureFormat, width, height int, datatype DataType, pixels []uint8) {
 	C.glTexImage2D(C.GLenum(target), C.GLint(level), C.GLint(internalformat), C.GLsizei(width), C.GLsizei(height), 0, C.GLenum(internalformat), C.GLenum(datatype), unsafe.Pointer(&pixels[0]))
 }
 
@@ -150,6 +150,6 @@ func TexParameter(target TextureTarget, pname TextureParameter, param TexturePar
 	C.glTexParameteri(C.GLenum(target), C.GLenum(pname), C.GLint(param))
 }
 
-func TexSubImage2D(target TextureTarget, level, xoffset, yoffset, width, height int, format TextureFormat, datatype DataType, pixels []interface{}) {
+func TexSubImage2D(target TextureTarget, level, xoffset, yoffset, width, height int, format TextureFormat, datatype DataType, pixels []uint8) {
 	C.glTexSubImage2D(C.GLenum(target), C.GLint(level), C.GLint(xoffset), C.GLint(yoffset), C.GLsizei(width), C.GLsizei(height), C.GLenum(format), C.GLenum(datatype), unsafe.Pointer(&pixels[0]))
 }
