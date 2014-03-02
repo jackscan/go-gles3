@@ -3,7 +3,10 @@ package gl
 // #include <GLES2/gl2.h>
 import "C"
 
-import "unsafe"
+import (
+	"image"
+	"unsafe"
+)
 
 type TextureFormat C.GLenum
 type TextureUnit C.GLenum
@@ -146,10 +149,34 @@ func TexImage2D(target TextureTarget, level int, internalformat TextureFormat, w
 	C.glTexImage2D(C.GLenum(target), C.GLint(level), C.GLint(internalformat), C.GLsizei(width), C.GLsizei(height), 0, C.GLenum(internalformat), C.GLenum(datatype), unsafe.Pointer(&pixels[0]))
 }
 
+func TexImageRGBA(target TextureTarget, level int, img image.NRGBA) {
+	C.glTexImage2D(C.GLenum(target), C.GLint(level), C.GL_RGBA, C.GLsizei(img.Rect.Dx()), C.GLsizei(img.Rect.Dy()), 0, C.GL_RGBA, C.GL_UNSIGNED_BYTE, unsafe.Pointer(&img.Pix[0]))
+}
+
+func TexImageAlpha(target TextureTarget, level int, img image.Alpha) {
+	C.glTexImage2D(C.GLenum(target), C.GLint(level), C.GL_ALPHA, C.GLsizei(img.Rect.Dx()), C.GLsizei(img.Rect.Dy()), 0, C.GL_ALPHA, C.GL_UNSIGNED_BYTE, unsafe.Pointer(&img.Pix[0]))
+}
+
+func TexImageLuminance(target TextureTarget, level int, img image.Gray) {
+	C.glTexImage2D(C.GLenum(target), C.GLint(level), C.GL_LUMINANCE, C.GLsizei(img.Rect.Dx()), C.GLsizei(img.Rect.Dy()), 0, C.GL_LUMINANCE, C.GL_UNSIGNED_BYTE, unsafe.Pointer(&img.Pix[0]))
+}
+
 func TexParameter(target TextureTarget, pname TextureParameter, param TextureParameterValue) {
 	C.glTexParameteri(C.GLenum(target), C.GLenum(pname), C.GLint(param))
 }
 
 func TexSubImage2D(target TextureTarget, level, xoffset, yoffset, width, height int, format TextureFormat, datatype DataType, pixels []uint8) {
 	C.glTexSubImage2D(C.GLenum(target), C.GLint(level), C.GLint(xoffset), C.GLint(yoffset), C.GLsizei(width), C.GLsizei(height), C.GLenum(format), C.GLenum(datatype), unsafe.Pointer(&pixels[0]))
+}
+
+func TexSubImageRGBA(target TextureTarget, level int, img image.NRGBA) {
+	C.glTexSubImage2D(C.GLenum(target), C.GLint(level), C.GLint(img.Rect.Min.X), C.GLint(img.Rect.Min.Y), C.GLsizei(img.Rect.Dx()), C.GLsizei(img.Rect.Dy()), C.GL_RGBA, C.GL_UNSIGNED_BYTE, unsafe.Pointer(&img.Pix[0]))
+}
+
+func TexSubImageAlpha(target TextureTarget, level int, img image.Alpha) {
+	C.glTexSubImage2D(C.GLenum(target), C.GLint(level), C.GLint(img.Rect.Min.X), C.GLint(img.Rect.Min.Y), C.GLsizei(img.Rect.Dx()), C.GLsizei(img.Rect.Dy()), C.GL_ALPHA, C.GL_UNSIGNED_BYTE, unsafe.Pointer(&img.Pix[0]))
+}
+
+func TexSubImageLuminance(target TextureTarget, level int, img image.Gray) {
+	C.glTexSubImage2D(C.GLenum(target), C.GLint(level), C.GLint(img.Rect.Min.X), C.GLint(img.Rect.Min.Y), C.GLsizei(img.Rect.Dx()), C.GLsizei(img.Rect.Dy()), C.GL_LUMINANCE, C.GL_UNSIGNED_BYTE, unsafe.Pointer(&img.Pix[0]))
 }
