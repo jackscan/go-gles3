@@ -117,6 +117,10 @@ func DeleteTextures(textures []Texture) {
 	C.glDeleteTextures(C.GLsizei(len(textures)), (*C.GLuint)(&textures[0]))
 }
 
+func (t Texture) Delete() {
+	C.glDeleteTextures(1, (*C.GLuint)(&t))
+}
+
 func GenTexture() Texture {
 	texture := Texture(0)
 	C.glGenTextures(1, (*C.GLuint)(&texture))
