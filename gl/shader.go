@@ -11,6 +11,11 @@ import (
 type Shader C.GLuint
 type ShaderType C.GLint
 
+const (
+	VERTEX_SHADER   ShaderType = C.GL_VERTEX_SHADER
+	FRAGMENT_SHADER            = C.GL_FRAGMENT_SHADER
+)
+
 type Program struct {
 	id C.GLuint
 
