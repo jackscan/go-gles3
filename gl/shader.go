@@ -286,3 +286,14 @@ func (program *Program) Validate() {
 func ReleaseShaderCompiler() {
 	C.glReleaseShaderCompiler()
 }
+
+func (t ShaderType) String() string {
+	switch t {
+	case VERTEX_SHADER:
+		return "VERTEX_SHADER"
+	case FRAGMENT_SHADER:
+		return "FRAGMENT_SHADER"
+	default:
+		return fmt.Sprintf("ShaderType(%#x)", t)
+	}
+}
