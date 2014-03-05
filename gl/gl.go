@@ -19,6 +19,7 @@ package gl
 import "C"
 
 import (
+	"fmt"
 	"image"
 	"unsafe"
 )
@@ -524,6 +525,24 @@ func ReadAlpha(image *image.Alpha) {
 	// restore alignment
 	if align < alignment {
 		C.glPixelStorei(C.GL_PACK_ALIGNMENT, alignment)
+	}
+}
+
+func (err Error) String() string {
+
+	switch err {
+	case NO_ERROR:
+		return "NO_ERROR"
+	case INVALID_ENUM:
+		return "INVALID_ENUM"
+	case INVALID_VALUE:
+		return "INVALID_VALUE"
+	case INVALID_OPERATION:
+		return "INVALID_OPERATION"
+	case OUT_OF_MEMORY:
+		return "OUT_OF_MEMORY"
+	default:
+		return fmt.Sprintf("Error(%#x)", err)
 	}
 }
 
