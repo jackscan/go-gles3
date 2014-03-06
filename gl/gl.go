@@ -145,48 +145,6 @@ const (
 	MEDIUM_INT   = C.GL_MEDIUM_INT
 	HIGH_INT     = C.GL_HIGH_INT
 
-	FRAMEBUFFER  = C.GL_FRAMEBUFFER
-	RENDERBUFFER = C.GL_RENDERBUFFER
-
-	RGBA4             = C.GL_RGBA4
-	RGB5_A1           = C.GL_RGB5_A1
-	RGB565            = C.GL_RGB565
-	DEPTH_COMPONENT16 = C.GL_DEPTH_COMPONENT16
-	STENCIL_INDEX8    = C.GL_STENCIL_INDEX8
-
-	RENDERBUFFER_WIDTH           = C.GL_RENDERBUFFER_WIDTH
-	RENDERBUFFER_HEIGHT          = C.GL_RENDERBUFFER_HEIGHT
-	RENDERBUFFER_INTERNAL_FORMAT = C.GL_RENDERBUFFER_INTERNAL_FORMAT
-	RENDERBUFFER_RED_SIZE        = C.GL_RENDERBUFFER_RED_SIZE
-	RENDERBUFFER_GREEN_SIZE      = C.GL_RENDERBUFFER_GREEN_SIZE
-	RENDERBUFFER_BLUE_SIZE       = C.GL_RENDERBUFFER_BLUE_SIZE
-	RENDERBUFFER_ALPHA_SIZE      = C.GL_RENDERBUFFER_ALPHA_SIZE
-	RENDERBUFFER_DEPTH_SIZE      = C.GL_RENDERBUFFER_DEPTH_SIZE
-	RENDERBUFFER_STENCIL_SIZE    = C.GL_RENDERBUFFER_STENCIL_SIZE
-
-	FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE           = C.GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE
-	FRAMEBUFFER_ATTACHMENT_OBJECT_NAME           = C.GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME
-	FRAMEBUFFER_ATTACHMENT_TEXTURE_LEVEL         = C.GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_LEVEL
-	FRAMEBUFFER_ATTACHMENT_TEXTURE_CUBE_MAP_FACE = C.GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_CUBE_MAP_FACE
-
-	COLOR_ATTACHMENT0  = C.GL_COLOR_ATTACHMENT0
-	DEPTH_ATTACHMENT   = C.GL_DEPTH_ATTACHMENT
-	STENCIL_ATTACHMENT = C.GL_STENCIL_ATTACHMENT
-
-	NONE = C.GL_NONE
-
-	FRAMEBUFFER_COMPLETE                      = C.GL_FRAMEBUFFER_COMPLETE
-	FRAMEBUFFER_INCOMPLETE_ATTACHMENT         = C.GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT
-	FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT = C.GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT
-	FRAMEBUFFER_INCOMPLETE_DIMENSIONS         = C.GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS
-	FRAMEBUFFER_UNSUPPORTED                   = C.GL_FRAMEBUFFER_UNSUPPORTED
-
-	FRAMEBUFFER_BINDING   = C.GL_FRAMEBUFFER_BINDING
-	RENDERBUFFER_BINDING  = C.GL_RENDERBUFFER_BINDING
-	MAX_RENDERBUFFER_SIZE = C.GL_MAX_RENDERBUFFER_SIZE
-
-	INVALID_FRAMEBUFFER_OPERATION = C.GL_INVALID_FRAMEBUFFER_OPERATION
-
 	FLOAT_VEC2   = C.GL_FLOAT_VEC2
 	FLOAT_VEC3   = C.GL_FLOAT_VEC3
 	FLOAT_VEC4   = C.GL_FLOAT_VEC4
@@ -303,11 +261,12 @@ const (
 	UNSIGNED_SHORT_5_5_5_1 = C.GL_UNSIGNED_SHORT_5_5_5_1
 	UNSIGNED_SHORT_5_6_5   = C.GL_UNSIGNED_SHORT_5_6_5
 
-	NO_ERROR          Error = C.GL_NO_ERROR
-	INVALID_ENUM            = C.GL_INVALID_ENUM
-	INVALID_VALUE           = C.GL_INVALID_VALUE
-	INVALID_OPERATION       = C.GL_INVALID_OPERATION
-	OUT_OF_MEMORY           = C.GL_OUT_OF_MEMORY
+	NO_ERROR                      Error = C.GL_NO_ERROR
+	INVALID_ENUM                        = C.GL_INVALID_ENUM
+	INVALID_VALUE                       = C.GL_INVALID_VALUE
+	INVALID_OPERATION                   = C.GL_INVALID_OPERATION
+	OUT_OF_MEMORY                       = C.GL_OUT_OF_MEMORY
+	INVALID_FRAMEBUFFER_OPERATION       = C.GL_INVALID_FRAMEBUFFER_OPERATION
 )
 
 func GetError() Error {
@@ -541,50 +500,12 @@ func (err Error) String() string {
 		return "INVALID_OPERATION"
 	case OUT_OF_MEMORY:
 		return "OUT_OF_MEMORY"
+	case INVALID_FRAMEBUFFER_OPERATION:
+		return "INVALID_FRAMEBUFFER_OPERATION"
 	default:
 		return fmt.Sprintf("Error(%#x)", err)
 	}
 }
-
-// func ReadPixels(x, y, width, height int, format int, type int, GLvoid* pixels) {
-// 	C.glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid* pixels)
-// }
-
-// func BindFramebuffer(target int, framebuffer uint) {
-// 	C.glBindFramebuffer(GLenum target, GLuint framebuffer)
-// }
-
-// func BindRenderbuffer(target int, renderbuffer uint) {
-// 	C.glBindRenderbuffer(GLenum target, GLuint renderbuffer)
-// }
-
-// func CheckFramebufferStatus(target int) int {
-// 	return C.glCheckFramebufferStatus(target)
-// }
-
-// func DeleteFramebuffers(GLsizei n, framebuffers []uint) {
-// 	C.glDeleteFramebuffers(GLsizei n, const GLuint* framebuffers)
-// }
-
-// func DeleteRenderbuffers(GLsizei n, renderbuffers []uint) {
-// 	C.glDeleteRenderbuffers(GLsizei n, const GLuint* renderbuffers)
-// }
-
-// func FramebufferRenderbuffer(target int, attachment int, renderbuffertarget int, renderbuffer uint) {
-// 	C.glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer)
-// }
-
-// func FramebufferTexture2D(target int, attachment int, textarget int, texture uint, level int) {
-// 	C.glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level)
-// }
-
-// func GenFramebuffers(GLsizei n) []uint {
-// 	C.glGenFramebuffers(GLsizei n, GLuint* framebuffers)
-// }
-
-// func GenRenderbuffers(GLsizei n) []uint {
-// 	C.glGenRenderbuffers(GLsizei n, GLuint* renderbuffers)
-// }
 
 // func GetBooleanv(pname int, GLboolean* params) {
 // 	C.glGetBooleanv(GLenum pname, GLboolean* params)
@@ -592,10 +513,6 @@ func (err Error) String() string {
 
 // func GetFloatv(pname int, GLfloat* params) {
 // 	C.glGetFloatv(GLenum pname, GLfloat* params)
-// }
-
-// func GetFramebufferAttachmentParameteriv(target int, attachment int, pname int,  params int) {
-// 	C.glGetFramebufferAttachmentParameteriv(GLenum target, GLenum attachment, GLenum pname, GLint* params)
 // }
 
 // func GetIntegerv(pname int,  params int) {
@@ -625,7 +542,3 @@ func (err Error) String() string {
 // GL_APICALL GLboolean    GL_APIENTRY glIsRenderbuffer (GLuint renderbuffer);
 // GL_APICALL GLboolean    GL_APIENTRY glIsShader (GLuint shader);
 // GL_APICALL GLboolean    GL_APIENTRY glIsTexture (GLuint texture);
-
-// func RenderbufferStorage(target int, internalformat int, GLsizei width, GLsizei height) {
-// 	C.glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei width, GLsizei height)
-// }
