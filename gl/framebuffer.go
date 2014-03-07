@@ -65,10 +65,8 @@ const (
 	FRAMEBUFFER_UNSUPPORTED                                     = C.GL_FRAMEBUFFER_UNSUPPORTED
 )
 
-func GenFramebuffers(n int) []Framebuffer {
-	buffers := make([]Framebuffer, n)
-	C.glGenFramebuffers(C.GLsizei(n), (*C.GLuint)(&buffers[0]))
-	return buffers
+func GenFramebuffers(buffers []Framebuffer) {
+	C.glGenFramebuffers(C.GLsizei(len(buffers)), (*C.GLuint)(&buffers[0]))
 }
 
 func GenFramebuffer() Framebuffer {
@@ -85,10 +83,8 @@ func CheckFramebufferStatus(target FramebufferTarget) FramebufferStatus {
 	return FramebufferStatus(C.glCheckFramebufferStatus(C.GLenum(target)))
 }
 
-func GenRenderbuffers(n int) []Renderbuffer {
-	buffers := make([]Renderbuffer, n)
-	C.glGenRenderbuffers(C.GLsizei(n), (*C.GLuint)(&buffers[0]))
-	return buffers
+func GenRenderbuffers(buffers []Renderbuffer) {
+	C.glGenRenderbuffers(C.GLsizei(len(buffers)), (*C.GLuint)(&buffers[0]))
 }
 
 func GenRenderbuffer() Renderbuffer {

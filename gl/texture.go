@@ -141,10 +141,8 @@ func GenTexture() Texture {
 	return texture
 }
 
-func GenTextures(n int) []Texture {
-	textures := make([]Texture, n)
-	C.glGenTextures(C.GLsizei(n), (*C.GLuint)(&textures[0]))
-	return textures
+func GenTextures(textures []Texture) {
+	C.glGenTextures(C.GLsizei(len(textures)), (*C.GLuint)(&textures[0]))
 }
 
 func GenerateMipmap(target TextureTarget) {

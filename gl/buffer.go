@@ -40,10 +40,8 @@ const (
 	DYNAMIC_DRAW             = C.GL_DYNAMIC_DRAW
 )
 
-func GenBuffers(n int) []Buffer {
-	buffers := make([]Buffer, n)
-	C.glGenBuffers(C.GLsizei(n), (*C.GLuint)(&buffers[0]))
-	return buffers
+func GenBuffers(buffers []Buffer) {
+	C.glGenBuffers(C.GLsizei(len(buffers)), (*C.GLuint)(&buffers[0]))
 }
 
 func GenBuffer() Buffer {
