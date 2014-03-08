@@ -22,14 +22,10 @@ type Renderbuffer C.GLuint
 type FramebufferTarget C.GLenum
 type RenderbufferTarget C.GLenum
 type FramebufferStatus C.GLenum
+type FramebufferAttachment C.GLenum
+type InternalFormat C.GLenum
 
 const (
-	RGBA4             = C.GL_RGBA4
-	RGB5_A1           = C.GL_RGB5_A1
-	RGB565            = C.GL_RGB565
-	DEPTH_COMPONENT16 = C.GL_DEPTH_COMPONENT16
-	STENCIL_INDEX8    = C.GL_STENCIL_INDEX8
-
 	RENDERBUFFER_WIDTH           = C.GL_RENDERBUFFER_WIDTH
 	RENDERBUFFER_HEIGHT          = C.GL_RENDERBUFFER_HEIGHT
 	RENDERBUFFER_INTERNAL_FORMAT = C.GL_RENDERBUFFER_INTERNAL_FORMAT
@@ -45,10 +41,6 @@ const (
 	FRAMEBUFFER_ATTACHMENT_TEXTURE_LEVEL         = C.GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_LEVEL
 	FRAMEBUFFER_ATTACHMENT_TEXTURE_CUBE_MAP_FACE = C.GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_CUBE_MAP_FACE
 
-	COLOR_ATTACHMENT0  = C.GL_COLOR_ATTACHMENT0
-	DEPTH_ATTACHMENT   = C.GL_DEPTH_ATTACHMENT
-	STENCIL_ATTACHMENT = C.GL_STENCIL_ATTACHMENT
-
 	NONE = C.GL_NONE
 
 	FRAMEBUFFER_BINDING   = C.GL_FRAMEBUFFER_BINDING
@@ -58,11 +50,21 @@ const (
 	FRAMEBUFFER  FramebufferTarget  = C.GL_FRAMEBUFFER
 	RENDERBUFFER RenderbufferTarget = C.GL_RENDERBUFFER
 
+	COLOR_ATTACHMENT0  FramebufferAttachment = C.GL_COLOR_ATTACHMENT0
+	DEPTH_ATTACHMENT                         = C.GL_DEPTH_ATTACHMENT
+	STENCIL_ATTACHMENT                       = C.GL_STENCIL_ATTACHMENT
+
 	FRAMEBUFFER_COMPLETE                      FramebufferStatus = C.GL_FRAMEBUFFER_COMPLETE
 	FRAMEBUFFER_INCOMPLETE_ATTACHMENT                           = C.GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT
 	FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT                   = C.GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT
 	FRAMEBUFFER_INCOMPLETE_DIMENSIONS                           = C.GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS
 	FRAMEBUFFER_UNSUPPORTED                                     = C.GL_FRAMEBUFFER_UNSUPPORTED
+
+	RGBA4             InternalFormat = C.GL_RGBA4
+	RGB5_A1                          = C.GL_RGB5_A1
+	RGB565                           = C.GL_RGB565
+	DEPTH_COMPONENT16                = C.GL_DEPTH_COMPONENT16
+	STENCIL_INDEX8                   = C.GL_STENCIL_INDEX8
 )
 
 func GenFramebuffers(buffers []Framebuffer) {
@@ -75,12 +77,28 @@ func GenFramebuffer() Framebuffer {
 	return buffer
 }
 
+func DeleteFramebuffers(framebuffers []Framebuffer) {
+	C.glDeleteFramebuffers(C.GLsizei(len(framebuffers)), (*C.GLuint)(&framebuffers[0]))
+}
+
+func (f Framebuffer) Delete() {
+	C.glDeleteFramebuffers(1, (*C.GLuint)(&f))
+}
+
 func BindFramebuffer(target FramebufferTarget, framebuffer Framebuffer) {
 	C.glBindFramebuffer(C.GLenum(target), C.GLuint(framebuffer))
 }
 
 func CheckFramebufferStatus(target FramebufferTarget) FramebufferStatus {
 	return FramebufferStatus(C.glCheckFramebufferStatus(C.GLenum(target)))
+}
+
+func FramebufferRenderbuffer(target FramebufferTarget, attachment FramebufferAttachment, renderbuffertarget RenderbufferTarget, renderbuffer Renderbuffer) {
+	C.glFramebufferRenderbuffer(C.GLenum(target), C.GLenum(attachment), C.GLenum(renderbuffertarget), C.GLuint(renderbuffer))
+}
+
+func FramebufferTexture2D(target FramebufferTarget, attachment FramebufferAttachment, textarget TextureTarget, texture Texture, level int) {
+	C.glFramebufferTexture2D(C.GLenum(target), C.GLenum(attachment), C.GLenum(textarget), C.GLuint(texture), C.GLint(level))
 }
 
 func GenRenderbuffers(buffers []Renderbuffer) {
@@ -93,33 +111,21 @@ func GenRenderbuffer() Renderbuffer {
 	return buffer
 }
 
+func DeleteRenderbuffers(renderbuffers []Renderbuffer) {
+	C.glDeleteRenderbuffers(C.GLsizei(len(renderbuffers)), (*C.GLuint)(&renderbuffers[0]))
+}
+
+func (r Renderbuffer) Delete() {
+	C.glDeleteRenderbuffers(1, (*C.GLuint)(&r))
+}
+
 func BindRenderbuffer(target RenderbufferTarget, renderbuffer Renderbuffer) {
 	C.glBindRenderbuffer(C.GLenum(target), C.GLuint(renderbuffer))
 }
 
-// func BindFramebuffer(target int, framebuffer uint) {
-// 	C.glBindFramebuffer(GLenum target, GLuint framebuffer)
-// }
-
-// func DeleteFramebuffers(GLsizei n, framebuffers []uint) {
-// 	C.glDeleteFramebuffers(GLsizei n, const GLuint* framebuffers)
-// }
-
-// func DeleteRenderbuffers(GLsizei n, renderbuffers []uint) {
-// 	C.glDeleteRenderbuffers(GLsizei n, const GLuint* renderbuffers)
-// }
-
-// func FramebufferRenderbuffer(target int, attachment int, renderbuffertarget int, renderbuffer uint) {
-// 	C.glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer)
-// }
-
-// func FramebufferTexture2D(target int, attachment int, textarget int, texture uint, level int) {
-// 	C.glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level)
-// }
-
-// func RenderbufferStorage(target int, internalformat int, GLsizei width, GLsizei height) {
-// 	C.glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei width, GLsizei height)
-// }
+func RenderbufferStorage(target RenderbufferTarget, internalformat InternalFormat, width, height int) {
+	C.glRenderbufferStorage(C.GLenum(target), C.GLenum(internalformat), C.GLsizei(width), C.GLsizei(height))
+}
 
 // func GetFramebufferAttachmentParameteriv(target int, attachment int, pname int,  params int) {
 // 	C.glGetFramebufferAttachmentParameteriv(GLenum target, GLenum attachment, GLenum pname, GLint* params)
