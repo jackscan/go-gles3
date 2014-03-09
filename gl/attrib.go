@@ -78,8 +78,12 @@ func (attrib FloatAttrib) Index() C.GLuint {
 // 	C.glVertexAttrib4fv(GLuint indx, const GLfloat* values)
 // }
 
-func (attrib FloatAttrib) Pointer(size int, datatype DataType, stride int, data []float32) {
-	C.glVertexAttribPointer(attrib.index, C.GLint(size), C.GLenum(datatype), C.GL_FALSE, C.GLsizei(stride), unsafe.Pointer(&data[0]))
+func (attrib FloatAttrib) Pointerf(size int, stride int, data []float32) {
+	C.glVertexAttribPointer(attrib.index, C.GLint(size), C.GL_FLOAT, C.GL_FALSE, C.GLsizei(stride), unsafe.Pointer(&data[0]))
+}
+
+func (attrib FloatAttrib) Pointer(size int, stride int, offset uintptr) {
+	C.glVertexAttribPointer(attrib.index, C.GLint(size), C.GL_FLOAT, C.GL_FALSE, C.GLsizei(stride), unsafe.Pointer(offset))
 }
 
 // func (attrib VertexAttrib) Pointer(size int, datatype DataType, normalized bool, stride int, offset uintptr) {
