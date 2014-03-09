@@ -17,6 +17,10 @@ package gl
 // #include <GLES2/gl2.h>
 import "C"
 
+import (
+	"fmt"
+)
+
 type Framebuffer C.GLuint
 type Renderbuffer C.GLuint
 type FramebufferTarget C.GLenum
@@ -130,3 +134,20 @@ func RenderbufferStorage(target RenderbufferTarget, internalformat InternalForma
 // func GetFramebufferAttachmentParameteriv(target int, attachment int, pname int,  params int) {
 // 	C.glGetFramebufferAttachmentParameteriv(GLenum target, GLenum attachment, GLenum pname, GLint* params)
 // }
+
+func (s FramebufferStatus) String() string {
+	switch s {
+	case FRAMEBUFFER_COMPLETE:
+		return "FRAMEBUFFER_COMPLETE"
+	case FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
+		return "FRAMEBUFFER_INCOMPLETE_ATTACHMENT"
+	case FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
+		return "FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT"
+	case FRAMEBUFFER_INCOMPLETE_DIMENSIONS:
+		return "FRAMEBUFFER_INCOMPLETE_DIMENSIONS"
+	case FRAMEBUFFER_UNSUPPORTED:
+		return "FRAMEBUFFER_UNSUPPORTED"
+	default:
+		return fmt.Sprintf("FramebufferStatus(%#x)", s)
+	}
+}
