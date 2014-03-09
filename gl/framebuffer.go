@@ -75,7 +75,7 @@ func GenFramebuffers(buffers []Framebuffer) {
 	C.glGenFramebuffers(C.GLsizei(len(buffers)), (*C.GLuint)(&buffers[0]))
 }
 
-func GenFramebuffer() Framebuffer {
+func CreateFramebuffer() Framebuffer {
 	buffer := Framebuffer(0)
 	C.glGenFramebuffers(C.GLsizei(1), (*C.GLuint)(&buffer))
 	return buffer
@@ -109,7 +109,7 @@ func GenRenderbuffers(buffers []Renderbuffer) {
 	C.glGenRenderbuffers(C.GLsizei(len(buffers)), (*C.GLuint)(&buffers[0]))
 }
 
-func GenRenderbuffer() Renderbuffer {
+func CreateRenderbuffer() Renderbuffer {
 	buffer := Renderbuffer(0)
 	C.glGenRenderbuffers(C.GLsizei(1), (*C.GLuint)(&buffer))
 	return buffer

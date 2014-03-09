@@ -44,7 +44,7 @@ func GenBuffers(buffers []Buffer) {
 	C.glGenBuffers(C.GLsizei(len(buffers)), (*C.GLuint)(&buffers[0]))
 }
 
-func GenBuffer() Buffer {
+func CreateBuffer() Buffer {
 	buffer := Buffer(0)
 	C.glGenBuffers(C.GLsizei(1), (*C.GLuint)(&buffer))
 	return buffer

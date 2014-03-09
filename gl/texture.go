@@ -135,7 +135,7 @@ func (t Texture) Delete() {
 	C.glDeleteTextures(1, (*C.GLuint)(&t))
 }
 
-func GenTexture() Texture {
+func CreateTexture() Texture {
 	texture := Texture(0)
 	C.glGenTextures(1, (*C.GLuint)(&texture))
 	return texture
