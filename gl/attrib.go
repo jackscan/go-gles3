@@ -46,37 +46,37 @@ func (attrib FloatAttrib) Index() C.GLuint {
 	return attrib.index
 }
 
-// func VertexAttrib1f(indx uint, GLfloat x) {
-// 	C.glVertexAttrib1f(GLuint indx, GLfloat x)
-// }
+func (a FloatAttrib) Set(x float32) {
+	C.glVertexAttrib1f(a.index, C.GLfloat(x))
+}
 
-// func VertexAttrib1fv(indx uint, const GLfloat* values) {
-// 	C.glVertexAttrib1fv(GLuint indx, const GLfloat* values)
-// }
+func (a Vec2Attrib) Set(x, y float32) {
+	C.glVertexAttrib2f(a.index, C.GLfloat(x), C.GLfloat(y))
+}
 
-// func VertexAttrib2f(indx uint, GLfloat x, GLfloat y) {
-// 	C.glVertexAttrib2f(GLuint indx, GLfloat x, GLfloat y)
-// }
+func (a Vec3Attrib) Set(x, y, z float32) {
+	C.glVertexAttrib3f(a.index, C.GLfloat(x), C.GLfloat(y), C.GLfloat(z))
+}
 
-// func VertexAttrib2fv(indx uint, const GLfloat* values) {
-// 	C.glVertexAttrib2fv(GLuint indx, const GLfloat* values)
-// }
+func (a Vec4Attrib) Set(x, y, z, w float32) {
+	C.glVertexAttrib4f(a.index, C.GLfloat(x), C.GLfloat(y), C.GLfloat(z), C.GLfloat(w))
+}
 
-// func VertexAttrib3f(indx uint, GLfloat x, GLfloat y, GLfloat z) {
-// 	C.glVertexAttrib3f(GLuint indx, GLfloat x, GLfloat y, GLfloat z)
-// }
+func (a FloatAttrib) Setv(values []float32) {
+	C.glVertexAttrib1fv(a.index, (*C.GLfloat)(&values[0]))
+}
 
-// func VertexAttrib3fv(indx uint, const GLfloat* values) {
-// 	C.glVertexAttrib3fv(GLuint indx, const GLfloat* values)
-// }
+func (a Vec2Attrib) Setv(values []float32) {
+	C.glVertexAttrib2fv(a.index, (*C.GLfloat)(&values[0]))
+}
 
-// func VertexAttrib4f(indx uint, GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
-// 	C.glVertexAttrib4f(GLuint indx, GLfloat x, GLfloat y, GLfloat z, GLfloat w)
-// }
+func (a Vec3Attrib) Setv(values []float32) {
+	C.glVertexAttrib3fv(a.index, (*C.GLfloat)(&values[0]))
+}
 
-// func VertexAttrib4fv(indx uint, const GLfloat* values) {
-// 	C.glVertexAttrib4fv(GLuint indx, const GLfloat* values)
-// }
+func (a Vec4Attrib) Setv(values []float32) {
+	C.glVertexAttrib4fv(a.index, (*C.GLfloat)(&values[0]))
+}
 
 func (attrib FloatAttrib) Pointerf(size int, stride int, data []float32) {
 	C.glVertexAttribPointer(attrib.index, C.GLint(size), C.GL_FLOAT, C.GL_FALSE, C.GLsizei(stride), unsafe.Pointer(&data[0]))
