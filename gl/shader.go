@@ -23,7 +23,8 @@ import (
 )
 
 type Shader C.GLuint
-type ShaderType C.GLint
+type ShaderType C.GLenum
+type ShaderBinaryFormat C.GLint
 
 const (
 	VERTEX_SHADER   ShaderType = C.GL_VERTEX_SHADER
@@ -153,6 +154,20 @@ func (program *Program) DetachShader(shader Shader) {
 // func ShaderBinary(GLsizei n, shaders []uint, binaryformat int, const GLvoid* binary, GLsizei length) {
 // 	C.glShaderBinary(GLsizei n, const GLuint* shaders, GLenum binaryformat, const GLvoid* binary, GLsizei length)
 // }
+
+func GetShaderBinaryFormats() (formats []ShaderBinaryFormat) {
+	numFormats := C.GLint(0)
+	C.glGetIntegerv(C.GL_NUM_SHADER_BINARY_FORMATS, &numFormats)
+	if numFormats > 0 {
+		formats = make([]ShaderBinaryFormat, numFormats)
+		C.glGetIntegerv(C.GL_SHADER_BINARY_FORMATS, (*C.GLint)(&formats[0]))
+	}
+	return
+}
+
+func ShaderBinary(shaders []Shader, format ShaderBinaryFormat, binary []byte) {
+	C.glShaderBinary(C.GLsizei(len(shaders)), (*C.GLuint)(&shaders[0]), C.GLenum(format), unsafe.Pointer(&binary[0]), C.GLsizei(len(binary)))
+}
 
 func (shader Shader) Source(src string) {
 	cstr := (*C.GLchar)(C.CString(src))
