@@ -165,16 +165,49 @@ func TexImage2D(target TextureTarget, level int, internalformat TextureFormat, w
 	C.glTexImage2D(C.GLenum(target), C.GLint(level), C.GLint(internalformat), C.GLsizei(width), C.GLsizei(height), 0, C.GLenum(internalformat), C.GLenum(datatype), unsafe.Pointer(&pixels[0]))
 }
 
+func adjustUnpackAlignment(stride int) C.GLint {
+
+	alignment := C.GLint(0)
+	C.glGetIntegerv(C.GL_UNPACK_ALIGNMENT, &alignment)
+
+	align := C.GLint(1)
+
+	for align < alignment && stride%(int(align)*2) == 0 {
+		align *= 2
+	}
+
+	// need smaller alignment
+	if align < alignment {
+		C.glPixelStorei(C.GL_UNPACK_ALIGNMENT, align)
+		// return old alignment
+		return alignment
+	} else {
+		return 0
+	}
+}
+
+func restoreAlignment(alignment C.GLint) {
+	if alignment > 0 {
+		C.glPixelStorei(C.GL_UNPACK_ALIGNMENT, alignment)
+	}
+}
+
 func TexImageRGBA(target TextureTarget, level int, img *image.NRGBA) {
+	a := adjustUnpackAlignment(img.Stride)
 	C.glTexImage2D(C.GLenum(target), C.GLint(level), C.GL_RGBA, C.GLsizei(img.Rect.Dx()), C.GLsizei(img.Rect.Dy()), 0, C.GL_RGBA, C.GL_UNSIGNED_BYTE, unsafe.Pointer(&img.Pix[0]))
+	restoreAlignment(a)
 }
 
 func TexImageAlpha(target TextureTarget, level int, img *image.Alpha) {
+	a := adjustUnpackAlignment(img.Stride)
 	C.glTexImage2D(C.GLenum(target), C.GLint(level), C.GL_ALPHA, C.GLsizei(img.Rect.Dx()), C.GLsizei(img.Rect.Dy()), 0, C.GL_ALPHA, C.GL_UNSIGNED_BYTE, unsafe.Pointer(&img.Pix[0]))
+	restoreAlignment(a)
 }
 
 func TexImageLuminance(target TextureTarget, level int, img *image.Gray) {
+	a := adjustUnpackAlignment(img.Stride)
 	C.glTexImage2D(C.GLenum(target), C.GLint(level), C.GL_LUMINANCE, C.GLsizei(img.Rect.Dx()), C.GLsizei(img.Rect.Dy()), 0, C.GL_LUMINANCE, C.GL_UNSIGNED_BYTE, unsafe.Pointer(&img.Pix[0]))
+	restoreAlignment(a)
 }
 
 func TexParameter(target TextureTarget, pname TextureParameter, param TextureParameterValue) {
@@ -186,13 +219,19 @@ func TexSubImage2D(target TextureTarget, level, xoffset, yoffset, width, height 
 }
 
 func TexSubImageRGBA(target TextureTarget, level int, img *image.NRGBA) {
+	a := adjustUnpackAlignment(img.Stride)
 	C.glTexSubImage2D(C.GLenum(target), C.GLint(level), C.GLint(img.Rect.Min.X), C.GLint(img.Rect.Min.Y), C.GLsizei(img.Rect.Dx()), C.GLsizei(img.Rect.Dy()), C.GL_RGBA, C.GL_UNSIGNED_BYTE, unsafe.Pointer(&img.Pix[0]))
+	restoreAlignment(a)
 }
 
 func TexSubImageAlpha(target TextureTarget, level int, img *image.Alpha) {
+	a := adjustUnpackAlignment(img.Stride)
 	C.glTexSubImage2D(C.GLenum(target), C.GLint(level), C.GLint(img.Rect.Min.X), C.GLint(img.Rect.Min.Y), C.GLsizei(img.Rect.Dx()), C.GLsizei(img.Rect.Dy()), C.GL_ALPHA, C.GL_UNSIGNED_BYTE, unsafe.Pointer(&img.Pix[0]))
+	restoreAlignment(a)
 }
 
 func TexSubImageLuminance(target TextureTarget, level int, img *image.Gray) {
+	a := adjustUnpackAlignment(img.Stride)
 	C.glTexSubImage2D(C.GLenum(target), C.GLint(level), C.GLint(img.Rect.Min.X), C.GLint(img.Rect.Min.Y), C.GLsizei(img.Rect.Dx()), C.GLsizei(img.Rect.Dy()), C.GL_LUMINANCE, C.GL_UNSIGNED_BYTE, unsafe.Pointer(&img.Pix[0]))
+	restoreAlignment(a)
 }
