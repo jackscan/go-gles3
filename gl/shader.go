@@ -207,13 +207,13 @@ func setupProgramAttributes(program *Program) {
 
 		switch datatype {
 		case C.GL_FLOAT:
-			program.Attributes[C.GoString(&name[0])] = FloatAttrib{C.GLuint(i)}
+			program.Attributes[C.GoString(&name[0])] = FloatAttrib{Attrib{C.GLuint(i)}}
 		case C.GL_FLOAT_VEC2:
-			program.Attributes[C.GoString(&name[0])] = Vec2Attrib{FloatAttrib{C.GLuint(i)}}
+			program.Attributes[C.GoString(&name[0])] = Vec2Attrib{FloatAttrib{Attrib{C.GLuint(i)}}}
 		case C.GL_FLOAT_VEC3:
-			program.Attributes[C.GoString(&name[0])] = Vec3Attrib{FloatAttrib{C.GLuint(i)}}
+			program.Attributes[C.GoString(&name[0])] = Vec3Attrib{FloatAttrib{Attrib{C.GLuint(i)}}}
 		case C.GL_FLOAT_VEC4:
-			program.Attributes[C.GoString(&name[0])] = Vec4Attrib{FloatAttrib{C.GLuint(i)}}
+			program.Attributes[C.GoString(&name[0])] = Vec4Attrib{FloatAttrib{Attrib{C.GLuint(i)}}}
 		}
 	}
 }

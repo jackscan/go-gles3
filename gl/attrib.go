@@ -26,8 +26,12 @@ type VertexAttrib interface {
 	Disable()
 }
 
-type FloatAttrib struct {
+type Attrib struct {
 	index C.GLuint
+}
+
+type FloatAttrib struct {
+	Attrib
 }
 
 type Vec2Attrib struct {
@@ -42,7 +46,7 @@ type Vec4Attrib struct {
 	FloatAttrib
 }
 
-func (attrib FloatAttrib) Index() C.GLuint {
+func (attrib Attrib) Index() C.GLuint {
 	return attrib.index
 }
 
@@ -82,7 +86,7 @@ func (attrib FloatAttrib) Pointerf(size int, stride int, data []float32) {
 	C.glVertexAttribPointer(attrib.index, C.GLint(size), C.GL_FLOAT, C.GL_FALSE, C.GLsizei(stride), unsafe.Pointer(&data[0]))
 }
 
-func (attrib FloatAttrib) Pointer(size int, stride int, offset uintptr) {
+func (attrib Attrib) Pointer(size int, stride int, offset uintptr) {
 	C.glVertexAttribPointer(attrib.index, C.GLint(size), C.GL_FLOAT, C.GL_FALSE, C.GLsizei(stride), unsafe.Pointer(offset))
 }
 
@@ -98,10 +102,10 @@ func (attrib FloatAttrib) Pointer(size int, stride int, offset uintptr) {
 // 	C.glVertexAttribPointer(C.GLuint(attrib), C.GLint(size), C.GLenum(datatype), C.GL_FALSE, C.GLsizei(stride), unsafe.Pointer(&data[0]))
 // }
 
-func (attrib FloatAttrib) Enable() {
+func (attrib Attrib) Enable() {
 	C.glEnableVertexAttribArray(attrib.index)
 }
 
-func (attrib FloatAttrib) Disable() {
+func (attrib Attrib) Disable() {
 	C.glDisableVertexAttribArray(attrib.index)
 }
