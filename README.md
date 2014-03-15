@@ -1,4 +1,4 @@
-Go Binding for OpenGLES 2
+Go Binding for OpenGLES 3
 =========================
 
-*go-gles2* is intended to become a easy-to-use binding for OpenGLES 2 with some type safety.
+*go-gles3* is intended to become a binding for OpenGLES 3 with some type safety.

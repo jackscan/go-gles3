@@ -14,7 +14,7 @@
 
 package gl
 
-// #include <GLES2/gl2.h>
+// #include <GLES3/gl3.h>
 // #include <stdlib.h>
 import "C"
 import (

@@ -14,7 +14,7 @@
 
 package gl
 
-// #include <GLES2/gl2.h>
+// #include <GLES3/gl3.h>
 // #cgo LDFLAGS: -lGLESv2
 import "C"
 
@@ -307,11 +307,11 @@ func Clear(mask int) {
 }
 
 func ClearColor(red, green, blue, alpha float32) {
-	C.glClearColor(C.GLclampf(red), C.GLclampf(green), C.GLclampf(blue), C.GLclampf(alpha))
+	C.glClearColor(C.GLfloat(red), C.GLfloat(green), C.GLfloat(blue), C.GLfloat(alpha))
 }
 
 func ClearDepthf(depth float32) {
-	C.glClearDepthf(C.GLclampf(depth))
+	C.glClearDepthf(C.GLfloat(depth))
 }
 
 func ClearStencil(s int32) {
@@ -331,7 +331,7 @@ func DrawElementsByte(mode DrawMode, count int, indices []uint8) {
 }
 
 func BlendColor(red, green, blue, alpha float32) {
-	C.glBlendColor(C.GLclampf(red), C.GLclampf(green), C.GLclampf(blue), C.GLclampf(alpha))
+	C.glBlendColor(C.GLfloat(red), C.GLfloat(green), C.GLfloat(blue), C.GLfloat(alpha))
 }
 
 func BlendEquation(mode BlendMode) {
@@ -388,7 +388,7 @@ func DepthMask(flag bool) {
 }
 
 func DepthRangef(zNear, zFar float32) {
-	C.glDepthRangef(C.GLclampf(zNear), C.GLclampf(zFar))
+	C.glDepthRangef(C.GLfloat(zNear), C.GLfloat(zFar))
 }
 
 func StencilFunc(f TestFunc, ref int32, mask uint32) {
@@ -429,7 +429,7 @@ func SampleCoverage(value float32, invert bool) {
 		b = C.GLboolean(C.GL_TRUE)
 	}
 
-	C.glSampleCoverage(C.GLclampf(value), C.GLboolean(b))
+	C.glSampleCoverage(C.GLfloat(value), C.GLboolean(b))
 }
 
 func PixelStorei(pname Packing, param int) {
