@@ -20,6 +20,8 @@ import (
 	"unsafe"
 )
 
+type VertexArray C.GLuint
+
 type VertexAttrib interface {
 	Index() C.GLuint
 	Enable()
@@ -112,4 +114,26 @@ func (attrib Attrib) Enable() {
 
 func (attrib Attrib) Disable() {
 	C.glDisableVertexAttribArray(attrib.index)
+}
+
+func GenVertexArrays(arrays []VertexArray) {
+	C.glGenVertexArrays(C.GLsizei(len(arrays)), (*C.GLuint)(&arrays[0]))
+}
+
+func CreateVertexArray() VertexArray {
+	a := VertexArray(0)
+	C.glGenVertexArrays(1, (*C.GLuint)(&a))
+	return a
+}
+
+func DeleteVertexArrays(arrays []VertexArray) {
+	C.glDeleteVertexArrays(C.GLsizei(len(arrays)), (*C.GLuint)(&arrays[0]))
+}
+
+func (a VertexArray) Delete() {
+	C.glDeleteVertexArrays(1, (*C.GLuint)(&a))
+}
+
+func BindVertexArray(array VertexArray) {
+	C.glBindVertexArray(C.GLuint(array))
 }
