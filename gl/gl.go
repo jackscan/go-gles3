@@ -330,6 +330,14 @@ func DrawElementsByte(mode DrawMode, count int, indices []uint8) {
 	C.glDrawElements(C.GLenum(mode), C.GLsizei(count), C.GLenum(C.GL_UNSIGNED_BYTE), unsafe.Pointer(&indices[0]))
 }
 
+func DrawArraysInstanced(mode DrawMode, first, count, instanceCount int) {
+	C.glDrawArraysInstanced(C.GLenum(mode), C.GLint(first), C.GLsizei(count), C.GLsizei(instanceCount))
+}
+
+func DrawElementsInstancedShort(mode DrawMode, count int, indices []uint16, instanceCount int) {
+	C.glDrawElementsInstanced(C.GLenum(mode), C.GLsizei(count), C.GL_UNSIGNED_SHORT, unsafe.Pointer(&indices[0]), C.GLsizei(instanceCount))
+}
+
 func BlendColor(red, green, blue, alpha float32) {
 	C.glBlendColor(C.GLfloat(red), C.GLfloat(green), C.GLfloat(blue), C.GLfloat(alpha))
 }

@@ -102,6 +102,10 @@ func (attrib Attrib) Pointer(size int, stride int, offset uintptr) {
 // 	C.glVertexAttribPointer(C.GLuint(attrib), C.GLint(size), C.GLenum(datatype), C.GL_FALSE, C.GLsizei(stride), unsafe.Pointer(&data[0]))
 // }
 
+func (attrib Attrib) Divisor(divisor int) {
+	C.glVertexAttribDivisor(attrib.index, C.GLuint(divisor))
+}
+
 func (attrib Attrib) Enable() {
 	C.glEnableVertexAttribArray(attrib.index)
 }
