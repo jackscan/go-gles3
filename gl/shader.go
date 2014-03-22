@@ -36,9 +36,6 @@ type Program struct {
 
 	shadersValid bool
 	shaders      []Shader
-
-	Uniforms   map[string]Uniform
-	Attributes map[string]VertexAttrib
 }
 
 func CreateProgram() Program {
@@ -192,85 +189,6 @@ func (shader Shader) Compile() {
 	}
 }
 
-func setupProgramAttributes(program *Program) {
-	nattribs := C.GLint(0)
-	C.glGetProgramiv(program.id, C.GL_ACTIVE_ATTRIBUTES, &nattribs)
-	maxattriblen := C.GLint(0)
-	C.glGetProgramiv(program.id, C.GL_ACTIVE_ATTRIBUTE_MAX_LENGTH, &maxattriblen)
-	program.Attributes = make(map[string]VertexAttrib, nattribs)
-
-	for i := 0; i < int(nattribs); i++ {
-		name := make([]C.char, maxattriblen)
-		namelen := C.GLsizei(0)
-		datatype := C.GLenum(0)
-		C.glGetActiveAttrib(program.id, C.GLuint(i), C.GLsizei(len(name)), &namelen, nil, &datatype, (*C.GLchar)(&name[0]))
-
-		switch datatype {
-		case C.GL_FLOAT:
-			program.Attributes[C.GoString(&name[0])] = FloatAttrib{Attrib{C.GLuint(i)}}
-		case C.GL_FLOAT_VEC2:
-			program.Attributes[C.GoString(&name[0])] = Vec2Attrib{FloatAttrib{Attrib{C.GLuint(i)}}}
-		case C.GL_FLOAT_VEC3:
-			program.Attributes[C.GoString(&name[0])] = Vec3Attrib{FloatAttrib{Attrib{C.GLuint(i)}}}
-		case C.GL_FLOAT_VEC4:
-			program.Attributes[C.GoString(&name[0])] = Vec4Attrib{FloatAttrib{Attrib{C.GLuint(i)}}}
-		}
-	}
-}
-
-func setupProgramUniforms(program *Program) {
-	nuniforms := C.GLint(0)
-	C.glGetProgramiv(program.id, C.GL_ACTIVE_UNIFORMS, &nuniforms)
-	maxuniformlen := C.GLint(0)
-	C.glGetProgramiv(program.id, C.GL_ACTIVE_UNIFORM_MAX_LENGTH, &maxuniformlen)
-	program.Uniforms = make(map[string]Uniform, nuniforms)
-
-	for i := 0; i < int(nuniforms); i++ {
-		name := make([]C.char, maxuniformlen)
-		namelen := C.GLsizei(0)
-		datatype := C.GLenum(0)
-		size := C.GLint(0)
-		C.glGetActiveUniform(program.id, C.GLuint(i), C.GLsizei(len(name)), &namelen, &size, &datatype, (*C.GLchar)(&name[0]))
-
-		switch datatype {
-		case C.GL_FLOAT:
-			program.Uniforms[C.GoString(&name[0])] = Uniform1f{uniformBase{C.GLint(i)}}
-		case C.GL_FLOAT_VEC2:
-			program.Uniforms[C.GoString(&name[0])] = Uniform2f{uniformBase{C.GLint(i)}}
-		case C.GL_FLOAT_VEC3:
-			program.Uniforms[C.GoString(&name[0])] = Uniform3f{uniformBase{C.GLint(i)}}
-		case C.GL_FLOAT_VEC4:
-			program.Uniforms[C.GoString(&name[0])] = Uniform4f{uniformBase{C.GLint(i)}}
-		case C.GL_INT:
-			program.Uniforms[C.GoString(&name[0])] = Uniform1i{uniformBase{C.GLint(i)}}
-		case C.GL_INT_VEC2:
-			program.Uniforms[C.GoString(&name[0])] = Uniform2i{uniformBase{C.GLint(i)}}
-		case C.GL_INT_VEC3:
-			program.Uniforms[C.GoString(&name[0])] = Uniform3i{uniformBase{C.GLint(i)}}
-		case C.GL_INT_VEC4:
-			program.Uniforms[C.GoString(&name[0])] = Uniform4i{uniformBase{C.GLint(i)}}
-		case C.GL_BOOL:
-			program.Uniforms[C.GoString(&name[0])] = Uniform1i{uniformBase{C.GLint(i)}}
-		case C.GL_BOOL_VEC2:
-			program.Uniforms[C.GoString(&name[0])] = Uniform2i{uniformBase{C.GLint(i)}}
-		case C.GL_BOOL_VEC3:
-			program.Uniforms[C.GoString(&name[0])] = Uniform3i{uniformBase{C.GLint(i)}}
-		case C.GL_BOOL_VEC4:
-			program.Uniforms[C.GoString(&name[0])] = Uniform4i{uniformBase{C.GLint(i)}}
-		case C.GL_FLOAT_MAT2:
-			program.Uniforms[C.GoString(&name[0])] = UniformMatrix2f{uniformBase{C.GLint(i)}}
-		case C.GL_FLOAT_MAT3:
-			program.Uniforms[C.GoString(&name[0])] = UniformMatrix3f{uniformBase{C.GLint(i)}}
-		case C.GL_FLOAT_MAT4:
-			program.Uniforms[C.GoString(&name[0])] = UniformMatrix4f{uniformBase{C.GLint(i)}}
-		case C.GL_SAMPLER_2D:
-			program.Uniforms[C.GoString(&name[0])] = Uniform1i{uniformBase{C.GLint(i)}}
-		case C.GL_SAMPLER_CUBE:
-			program.Uniforms[C.GoString(&name[0])] = Uniform1i{uniformBase{C.GLint(i)}}
-		}
-	}
-}
-
 func (program *Program) Link() {
 	C.glLinkProgram(program.id)
 
@@ -284,9 +202,6 @@ func (program *Program) Link() {
 		defer C.free(unsafe.Pointer(log))
 		C.glGetProgramInfoLog(program.id, C.GLsizei(loglen), nil, log)
 		panic(fmt.Errorf("Failed to link shader: %s", C.GoString((*C.char)(log))))
-	} else {
-		setupProgramAttributes(program)
-		setupProgramUniforms(program)
 	}
 }
 
