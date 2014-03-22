@@ -19,6 +19,7 @@ package gl
 import "C"
 import (
 	"fmt"
+	"reflect"
 	"unsafe"
 )
 
@@ -225,5 +226,113 @@ func (t ShaderType) String() string {
 		return "FRAGMENT_SHADER"
 	default:
 		return fmt.Sprintf("ShaderType(%#x)", t)
+	}
+}
+
+func (program *Program) BindVariables(s interface{}) {
+
+	ut := reflect.TypeOf((*Uniform)(nil)).Elem()
+	at := reflect.TypeOf((*VertexAttrib)(nil)).Elem()
+
+	v := reflect.ValueOf(s).Elem()
+	t := v.Type()
+
+	n := t.NumField()
+
+	for i := 0; i < n; i++ {
+		ft := t.Field(i)
+		name := ft.Tag.Get("glsl")
+		if len(name) > 0 {
+			fv := v.Field(i)
+			if fv.Type().Implements(ut) {
+				fv.Set(reflect.ValueOf(program.GetUniform(name)))
+			} else if fv.Type().Implements(at) {
+				fv.Set(reflect.ValueOf(program.GetAttrib(name)))
+			} else {
+				panic(fmt.Errorf("invalid type of '%s': %s", ft.Name, fv.Type().Name()))
+			}
+		}
+	}
+}
+
+func (program *Program) GetAttrib(name string) VertexAttrib {
+
+	cname := (*C.GLchar)(C.CString(name))
+	defer C.free(unsafe.Pointer(cname))
+
+	iloc := C.glGetAttribLocation(program.id, cname)
+	if iloc < 0 {
+		panic(fmt.Errorf("not an active uniform: %s", name))
+	}
+
+	loc := C.GLuint(iloc)
+
+	datatype := C.GLenum(0)
+	C.glGetActiveAttrib(program.id, C.GLuint(loc), 0, nil, nil, &datatype, nil)
+
+	switch datatype {
+	case C.GL_FLOAT:
+		return FloatAttrib{vattrib{loc}}
+	case C.GL_FLOAT_VEC2:
+		return Vec2Attrib{FloatAttrib{vattrib{loc}}}
+	case C.GL_FLOAT_VEC3:
+		return Vec3Attrib{FloatAttrib{vattrib{loc}}}
+	case C.GL_FLOAT_VEC4:
+		return Vec4Attrib{FloatAttrib{vattrib{loc}}}
+	default:
+		panic(fmt.Errorf("unsupported attribute type: %#x", datatype))
+	}
+}
+
+func (program *Program) GetUniform(name string) Uniform {
+
+	cname := (*C.GLchar)(C.CString(name))
+	defer C.free(unsafe.Pointer(cname))
+
+	loc := C.GLint(C.glGetUniformLocation(program.id, cname))
+	if loc < 0 {
+		panic(fmt.Errorf("not an active attribute: %s", name))
+	}
+
+	datatype := C.GLenum(0)
+	C.glGetActiveUniform(program.id, C.GLuint(loc), 0, nil, nil, &datatype, nil)
+
+	switch datatype {
+	case C.GL_FLOAT:
+		return Uniform1f{uniformBase{loc}}
+	case C.GL_FLOAT_VEC2:
+		return Uniform2f{uniformBase{loc}}
+	case C.GL_FLOAT_VEC3:
+		return Uniform3f{uniformBase{loc}}
+	case C.GL_FLOAT_VEC4:
+		return Uniform4f{uniformBase{loc}}
+	case C.GL_INT:
+		return Uniform1i{uniformBase{loc}}
+	case C.GL_INT_VEC2:
+		return Uniform2i{uniformBase{loc}}
+	case C.GL_INT_VEC3:
+		return Uniform3i{uniformBase{loc}}
+	case C.GL_INT_VEC4:
+		return Uniform4i{uniformBase{loc}}
+	case C.GL_BOOL:
+		return Uniform1i{uniformBase{loc}}
+	case C.GL_BOOL_VEC2:
+		return Uniform2i{uniformBase{loc}}
+	case C.GL_BOOL_VEC3:
+		return Uniform3i{uniformBase{loc}}
+	case C.GL_BOOL_VEC4:
+		return Uniform4i{uniformBase{loc}}
+	case C.GL_FLOAT_MAT2:
+		return UniformMatrix2f{uniformBase{loc}}
+	case C.GL_FLOAT_MAT3:
+		return UniformMatrix3f{uniformBase{loc}}
+	case C.GL_FLOAT_MAT4:
+		return UniformMatrix4f{uniformBase{loc}}
+	case C.GL_SAMPLER_2D:
+		return Uniform1i{uniformBase{loc}}
+	case C.GL_SAMPLER_CUBE:
+		return Uniform1i{uniformBase{loc}}
+	default:
+		panic(fmt.Errorf("unsupported uniform type: %#x", datatype))
 	}
 }
