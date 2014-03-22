@@ -18,16 +18,16 @@ package gl
 import "C"
 
 type Uniform interface {
-	// Location() C.GLint
+	Location() C.GLint
 }
 
 type uniformBase struct {
 	location C.GLint
 }
 
-// func (u uniformBase) Location() C.GLint {
-// 	return u.location
-// }
+func (u uniformBase) Location() C.GLint {
+	return u.location
+}
 
 type Uniform1f struct {
 	uniformBase
