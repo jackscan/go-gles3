@@ -15,7 +15,7 @@
 package main
 
 import (
-	"github.com/jackscan/go-gles3/gl"
+	"github.com/fritschy/go-gles3/gl"
 	"github.com/jackyb/go-sdl2/sdl"
 	"testing"
 )

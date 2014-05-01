@@ -162,7 +162,11 @@ func GetTexParameteri(target TextureTarget, pname TextureParameter) int {
 }
 
 func TexImage2D(target TextureTarget, level int, internalformat TextureFormat, width, height int, datatype DataType, pixels []uint8) {
-	C.glTexImage2D(C.GLenum(target), C.GLint(level), C.GLint(internalformat), C.GLsizei(width), C.GLsizei(height), 0, C.GLenum(internalformat), C.GLenum(datatype), unsafe.Pointer(&pixels[0]))
+	if pixels != nil {
+		C.glTexImage2D(C.GLenum(target), C.GLint(level), C.GLint(internalformat), C.GLsizei(width), C.GLsizei(height), 0, C.GLenum(internalformat), C.GLenum(datatype), unsafe.Pointer(&pixels[0]))
+	} else {
+		C.glTexImage2D(C.GLenum(target), C.GLint(level), C.GLint(internalformat), C.GLsizei(width), C.GLsizei(height), 0, C.GLenum(internalformat), C.GLenum(datatype), unsafe.Pointer(nil))
+	}
 }
 
 func adjustUnpackAlignment(stride int) C.GLint {
