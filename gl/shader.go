@@ -262,7 +262,7 @@ func (program *Program) GetAttrib(name string) VertexAttrib {
 
 	iloc := C.glGetAttribLocation(program.id, cname)
 	if iloc < 0 {
-		panic(fmt.Errorf("not an active uniform: %s", name))
+		panic(fmt.Errorf("not an active attribute: %s", name))
 	}
 
 	loc := C.GLuint(iloc)
@@ -291,7 +291,7 @@ func (program *Program) GetUniform(name string) Uniform {
 
 	loc := C.GLint(C.glGetUniformLocation(program.id, cname))
 	if loc < 0 {
-		panic(fmt.Errorf("not an active attribute: %s", name))
+		panic(fmt.Errorf("not an active uniform: %s", name))
 	}
 
 	datatype := C.GLenum(0)
