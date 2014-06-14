@@ -24,13 +24,11 @@ import (
 type Buffer C.GLuint
 type BufferTarget C.GLenum
 type BufferUsage C.GLenum
+type BufferParameter C.GLenum
 
 const (
 	ARRAY_BUFFER_BINDING         = C.GL_ARRAY_BUFFER_BINDING
 	ELEMENT_ARRAY_BUFFER_BINDING = C.GL_ELEMENT_ARRAY_BUFFER_BINDING
-
-	BUFFER_SIZE  = C.GL_BUFFER_SIZE
-	BUFFER_USAGE = C.GL_BUFFER_USAGE
 
 	ARRAY_BUFFER         BufferTarget = C.GL_ARRAY_BUFFER
 	ELEMENT_ARRAY_BUFFER              = C.GL_ELEMENT_ARRAY_BUFFER
@@ -38,6 +36,13 @@ const (
 	STREAM_DRAW  BufferUsage = C.GL_STREAM_DRAW
 	STATIC_DRAW              = C.GL_STATIC_DRAW
 	DYNAMIC_DRAW             = C.GL_DYNAMIC_DRAW
+
+	BUFFER_ACCESS_FLAGS BufferParameter = C.GL_BUFFER_ACCESS_FLAGS
+	BUFFER_MAPPED                       = C.GL_BUFFER_MAPPED
+	BUFFER_MAP_LENGTH                   = C.GL_BUFFER_MAP_LENGTH
+	BUFFER_MAP_OFFSET                   = C.GL_BUFFER_MAP_OFFSET
+	BUFFER_SIZE                         = C.GL_BUFFER_SIZE
+	BUFFER_USAGE                        = C.GL_BUFFER_USAGE
 )
 
 func GenBuffers(buffers []Buffer) {
@@ -72,6 +77,12 @@ func DeleteBuffers(buffers []Buffer) {
 
 func BufferSubData(target BufferTarget, offset int, data []float32) {
 	C.glBufferSubData(C.GLenum(target), C.GLintptr(offset), C.GLsizeiptr(unsafe.Sizeof(data[0])*uintptr(len(data))), unsafe.Pointer(&data[0]))
+}
+
+func GetBufferParameter(target BufferTarget, param BufferParameter) int {
+	value := C.GLint(0)
+	C.glGetBufferParameteriv(C.GLenum(target), C.GLenum(param), &value)
+	return int(value)
 }
 
 // func GetBufferParameteriv(target int, pname int,  params int) {
