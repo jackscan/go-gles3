@@ -268,7 +268,12 @@ func (program *Program) GetAttrib(name string) VertexAttrib {
 	loc := C.GLuint(iloc)
 
 	datatype := C.GLenum(0)
-	C.glGetActiveAttrib(program.id, C.GLuint(loc), 0, nil, nil, &datatype, nil)
+	length := C.GLsizei(0)
+	size := C.GLint(0)
+
+	aname := [32]byte{}
+
+	C.glGetActiveAttrib(program.id, C.GLuint(loc), C.GLsizei(len(aname)), &length, &size, &datatype, (*C.GLchar)(unsafe.Pointer(&aname[0])))
 
 	switch datatype {
 	case C.GL_FLOAT:
@@ -295,7 +300,12 @@ func (program *Program) GetUniform(name string) Uniform {
 	}
 
 	datatype := C.GLenum(0)
-	C.glGetActiveUniform(program.id, C.GLuint(loc), 0, nil, nil, &datatype, nil)
+	length := C.GLsizei(0)
+	size := C.GLint(0)
+
+	uname := [32]byte{}
+
+	C.glGetActiveUniform(program.id, C.GLuint(loc), C.GLsizei(len(uname)), &length, &size, &datatype, (*C.GLchar)(unsafe.Pointer(&uname[0])))
 
 	switch datatype {
 	case C.GL_FLOAT:
