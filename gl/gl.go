@@ -301,6 +301,12 @@ func Viewport(x, y, width, height int) {
 	C.glViewport(C.GLint(x), C.GLint(y), C.GLsizei(width), C.GLsizei(height))
 }
 
+func GetViewport() (int, int, int, int) {
+	data := [4]C.GLint{0, 0, 0, 0}
+	C.glGetIntegerv(C.GL_VIEWPORT, &data[0])
+	return int(data[0]), int(data[1]), int(data[2]), int(data[3])
+}
+
 func Clear(mask int) {
 	C.glClear(C.GLbitfield(mask))
 }
