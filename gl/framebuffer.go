@@ -120,6 +120,12 @@ func FramebufferTexture2D(target FramebufferTarget, attachment FramebufferAttach
 	C.glFramebufferTexture2D(C.GLenum(target), C.GLenum(attachment), C.GLenum(textarget), C.GLuint(texture), C.GLint(level))
 }
 
+func GetFramebufferAttachmentParameter(target FramebufferTarget, attachment FramebufferAttachment, pname FramebufferAttachmentParameter) int {
+	param := C.GLint(0)
+	C.glGetFramebufferAttachmentParameteriv(C.GLenum(target), C.GLenum(attachment), C.GLenum(pname), &param)
+	return int(param)
+}
+
 func GenRenderbuffers(buffers []Renderbuffer) {
 	C.glGenRenderbuffers(C.GLsizei(len(buffers)), (*C.GLuint)(&buffers[0]))
 }
@@ -145,10 +151,6 @@ func BindRenderbuffer(target RenderbufferTarget, renderbuffer Renderbuffer) {
 func RenderbufferStorage(target RenderbufferTarget, internalformat InternalFormat, width, height int) {
 	C.glRenderbufferStorage(C.GLenum(target), C.GLenum(internalformat), C.GLsizei(width), C.GLsizei(height))
 }
-
-// func GetFramebufferAttachmentParameteriv(target int, attachment int, pname int,  params int) {
-// 	C.glGetFramebufferAttachmentParameteriv(GLenum target, GLenum attachment, GLenum pname, GLint* params)
-// }
 
 func (s FramebufferStatus) String() string {
 	switch s {
