@@ -146,6 +146,10 @@ func GenTextures(textures []Texture) {
 	C.glGenTextures(C.GLsizei(len(textures)), (*C.GLuint)(&textures[0]))
 }
 
+func IsTexture(texture Texture) bool {
+	return C.glIsTexture(C.GLuint(texture)) == C.GL_TRUE
+}
+
 func GenerateMipmap(target TextureTarget) {
 	C.glGenerateMipmap(C.GLenum(target))
 }
