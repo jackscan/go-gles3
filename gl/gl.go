@@ -176,94 +176,93 @@ const (
 	GENERATE_MIPMAP_HINT HintType = C.GL_GENERATE_MIPMAP_HINT
 
 	DONT_CARE HintValue = C.GL_DONT_CARE
-	FASTEST             = C.GL_FASTEST
-	NICEST              = C.GL_NICEST
+	FASTEST   HintValue = C.GL_FASTEST
+	NICEST    HintValue = C.GL_NICEST
 
 	CULL_FACE                Capability = C.GL_CULL_FACE
-	BLEND                               = C.GL_BLEND
-	DITHER                              = C.GL_DITHER
-	STENCIL_TEST                        = C.GL_STENCIL_TEST
-	DEPTH_TEST                          = C.GL_DEPTH_TEST
-	SCISSOR_TEST                        = C.GL_SCISSOR_TEST
-	POLYGON_OFFSET_FILL                 = C.GL_POLYGON_OFFSET_FILL
-	SAMPLE_ALPHA_TO_COVERAGE            = C.GL_SAMPLE_ALPHA_TO_COVERAGE
-	SAMPLE_COVERAGE                     = C.GL_SAMPLE_COVERAGE
+	BLEND                    Capability = C.GL_BLEND
+	DITHER                   Capability = C.GL_DITHER
+	STENCIL_TEST             Capability = C.GL_STENCIL_TEST
+	DEPTH_TEST               Capability = C.GL_DEPTH_TEST
+	SCISSOR_TEST             Capability = C.GL_SCISSOR_TEST
+	POLYGON_OFFSET_FILL      Capability = C.GL_POLYGON_OFFSET_FILL
+	SAMPLE_ALPHA_TO_COVERAGE Capability = C.GL_SAMPLE_ALPHA_TO_COVERAGE
+	SAMPLE_COVERAGE          Capability = C.GL_SAMPLE_COVERAGE
 
 	UNPACK_ALIGNMENT Packing = C.GL_UNPACK_ALIGNMENT
-	PACK_ALIGNMENT           = C.GL_PACK_ALIGNMENT
+	PACK_ALIGNMENT   Packing = C.GL_PACK_ALIGNMENT
 
 	POINTS         DrawMode = C.GL_POINTS
-	LINES                   = C.GL_LINES
-	LINE_LOOP               = C.GL_LINE_LOOP
-	LINE_STRIP              = C.GL_LINE_STRIP
-	TRIANGLES               = C.GL_TRIANGLES
-	TRIANGLE_STRIP          = C.GL_TRIANGLE_STRIP
-	TRIANGLE_FAN            = C.GL_TRIANGLE_FAN
+	LINES          DrawMode = C.GL_LINES
+	LINE_LOOP      DrawMode = C.GL_LINE_LOOP
+	LINE_STRIP     DrawMode = C.GL_LINE_STRIP
+	TRIANGLES      DrawMode = C.GL_TRIANGLES
+	TRIANGLE_STRIP DrawMode = C.GL_TRIANGLE_STRIP
+	TRIANGLE_FAN   DrawMode = C.GL_TRIANGLE_FAN
 
 	FUNC_ADD              BlendMode = C.GL_FUNC_ADD
-	FUNC_SUBTRACT                   = C.GL_FUNC_SUBTRACT
-	FUNC_REVERSE_SUBTRACT           = C.GL_FUNC_REVERSE_SUBTRACT
+	FUNC_SUBTRACT         BlendMode = C.GL_FUNC_SUBTRACT
+	FUNC_REVERSE_SUBTRACT BlendMode = C.GL_FUNC_REVERSE_SUBTRACT
 
 	ZERO                     BlendFactor = C.GL_ZERO
-	ONE                                  = C.GL_ONE
-	SRC_COLOR                            = C.GL_SRC_COLOR
-	ONE_MINUS_SRC_COLOR                  = C.GL_ONE_MINUS_SRC_COLOR
-	SRC_ALPHA                            = C.GL_SRC_ALPHA
-	ONE_MINUS_SRC_ALPHA                  = C.GL_ONE_MINUS_SRC_ALPHA
-	DST_ALPHA                            = C.GL_DST_ALPHA
-	ONE_MINUS_DST_ALPHA                  = C.GL_ONE_MINUS_DST_ALPHA
-	DST_COLOR                            = C.GL_DST_COLOR
-	ONE_MINUS_DST_COLOR                  = C.GL_ONE_MINUS_DST_COLOR
-	SRC_ALPHA_SATURATE                   = C.GL_SRC_ALPHA_SATURATE
-	CONSTANT_COLOR                       = C.GL_CONSTANT_COLOR
-	ONE_MINUS_CONSTANT_COLOR             = C.GL_ONE_MINUS_CONSTANT_COLOR
-	CONSTANT_ALPHA                       = C.GL_CONSTANT_ALPHA
-	ONE_MINUS_CONSTANT_ALPHA             = C.GL_ONE_MINUS_CONSTANT_ALPHA
+	ONE                      BlendFactor = C.GL_ONE
+	SRC_COLOR                BlendFactor = C.GL_SRC_COLOR
+	ONE_MINUS_SRC_COLOR      BlendFactor = C.GL_ONE_MINUS_SRC_COLOR
+	SRC_ALPHA                BlendFactor = C.GL_SRC_ALPHA
+	ONE_MINUS_SRC_ALPHA      BlendFactor = C.GL_ONE_MINUS_SRC_ALPHA
+	DST_ALPHA                BlendFactor = C.GL_DST_ALPHA
+	ONE_MINUS_DST_ALPHA      BlendFactor = C.GL_ONE_MINUS_DST_ALPHA
+	DST_COLOR                BlendFactor = C.GL_DST_COLOR
+	ONE_MINUS_DST_COLOR      BlendFactor = C.GL_ONE_MINUS_DST_COLOR
+	SRC_ALPHA_SATURATE       BlendFactor = C.GL_SRC_ALPHA_SATURATE
+	CONSTANT_COLOR           BlendFactor = C.GL_CONSTANT_COLOR
+	ONE_MINUS_CONSTANT_COLOR BlendFactor = C.GL_ONE_MINUS_CONSTANT_COLOR
+	CONSTANT_ALPHA           BlendFactor = C.GL_CONSTANT_ALPHA
+	ONE_MINUS_CONSTANT_ALPHA BlendFactor = C.GL_ONE_MINUS_CONSTANT_ALPHA
 
 	NEVER    TestFunc = C.GL_NEVER
-	LESS              = C.GL_LESS
-	EQUAL             = C.GL_EQUAL
-	LEQUAL            = C.GL_LEQUAL
-	GREATER           = C.GL_GREATER
-	NOTEQUAL          = C.GL_NOTEQUAL
-	GEQUAL            = C.GL_GEQUAL
-	ALWAYS            = C.GL_ALWAYS
+	LESS     TestFunc = C.GL_LESS
+	EQUAL    TestFunc = C.GL_EQUAL
+	LEQUAL   TestFunc = C.GL_LEQUAL
+	GREATER  TestFunc = C.GL_GREATER
+	NOTEQUAL TestFunc = C.GL_NOTEQUAL
+	GEQUAL   TestFunc = C.GL_GEQUAL
+	ALWAYS   TestFunc = C.GL_ALWAYS
 
 	CW  Facing = C.GL_CW
-	CCW        = C.GL_CCW
+	CCW Facing = C.GL_CCW
 
 	FRONT          Face = C.GL_FRONT
-	BACK                = C.GL_BACK
-	FRONT_AND_BACK      = C.GL_FRONT_AND_BACK
+	BACK           Face = C.GL_BACK
+	FRONT_AND_BACK Face = C.GL_FRONT_AND_BACK
 
 	RESET     StencilOperation = C.GL_ZERO
-	KEEP                       = C.GL_KEEP
-	REPLACE                    = C.GL_REPLACE
-	INCR                       = C.GL_INCR
-	DECR                       = C.GL_DECR
-	INVERT                     = C.GL_INVERT
-	INCR_WRAP                  = C.GL_INCR_WRAP
-	DECR_WRAP                  = C.GL_DECR_WRAP
+	KEEP      StencilOperation = C.GL_KEEP
+	REPLACE   StencilOperation = C.GL_REPLACE
+	INCR      StencilOperation = C.GL_INCR
+	DECR      StencilOperation = C.GL_DECR
+	INVERT    StencilOperation = C.GL_INVERT
+	INCR_WRAP StencilOperation = C.GL_INCR_WRAP
+	DECR_WRAP StencilOperation = C.GL_DECR_WRAP
 
-	BYTE           DataType = C.GL_BYTE
-	UNSIGNED_BYTE           = C.GL_UNSIGNED_BYTE
-	SHORT                   = C.GL_SHORT
-	UNSIGNED_SHORT          = C.GL_UNSIGNED_SHORT
-	INT                     = C.GL_INT
-	UNSIGNED_INT            = C.GL_UNSIGNED_INT
-	FLOAT                   = C.GL_FLOAT
-	FIXED                   = C.GL_FIXED
-
-	UNSIGNED_SHORT_4_4_4_4 = C.GL_UNSIGNED_SHORT_4_4_4_4
-	UNSIGNED_SHORT_5_5_5_1 = C.GL_UNSIGNED_SHORT_5_5_5_1
-	UNSIGNED_SHORT_5_6_5   = C.GL_UNSIGNED_SHORT_5_6_5
+	BYTE                   DataType = C.GL_BYTE
+	UNSIGNED_BYTE          DataType = C.GL_UNSIGNED_BYTE
+	SHORT                  DataType = C.GL_SHORT
+	UNSIGNED_SHORT         DataType = C.GL_UNSIGNED_SHORT
+	INT                    DataType = C.GL_INT
+	UNSIGNED_INT           DataType = C.GL_UNSIGNED_INT
+	FLOAT                  DataType = C.GL_FLOAT
+	FIXED                  DataType = C.GL_FIXED
+	UNSIGNED_SHORT_4_4_4_4 DataType = C.GL_UNSIGNED_SHORT_4_4_4_4
+	UNSIGNED_SHORT_5_5_5_1 DataType = C.GL_UNSIGNED_SHORT_5_5_5_1
+	UNSIGNED_SHORT_5_6_5   DataType = C.GL_UNSIGNED_SHORT_5_6_5
 
 	NO_ERROR                      Error = C.GL_NO_ERROR
-	INVALID_ENUM                        = C.GL_INVALID_ENUM
-	INVALID_VALUE                       = C.GL_INVALID_VALUE
-	INVALID_OPERATION                   = C.GL_INVALID_OPERATION
-	OUT_OF_MEMORY                       = C.GL_OUT_OF_MEMORY
-	INVALID_FRAMEBUFFER_OPERATION       = C.GL_INVALID_FRAMEBUFFER_OPERATION
+	INVALID_ENUM                  Error = C.GL_INVALID_ENUM
+	INVALID_VALUE                 Error = C.GL_INVALID_VALUE
+	INVALID_OPERATION             Error = C.GL_INVALID_OPERATION
+	OUT_OF_MEMORY                 Error = C.GL_OUT_OF_MEMORY
+	INVALID_FRAMEBUFFER_OPERATION Error = C.GL_INVALID_FRAMEBUFFER_OPERATION
 )
 
 func GetError() Error {
