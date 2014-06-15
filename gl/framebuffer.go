@@ -108,6 +108,18 @@ func BindFramebuffer(target FramebufferTarget, framebuffer Framebuffer) {
 	C.glBindFramebuffer(C.GLenum(target), C.GLuint(framebuffer))
 }
 
+func GetDrawFramebufferBinding() Framebuffer {
+	framebuffer := C.GLint(0)
+	C.glGetIntegerv(C.GL_DRAW_FRAMEBUFFER_BINDING, &framebuffer)
+	return Framebuffer(framebuffer)
+}
+
+func GetReadFramebufferBinding() Framebuffer {
+	framebuffer := C.GLint(0)
+	C.glGetIntegerv(C.GL_READ_FRAMEBUFFER_BINDING, &framebuffer)
+	return Framebuffer(framebuffer)
+}
+
 func CheckFramebufferStatus(target FramebufferTarget) FramebufferStatus {
 	return FramebufferStatus(C.glCheckFramebufferStatus(C.GLenum(target)))
 }
