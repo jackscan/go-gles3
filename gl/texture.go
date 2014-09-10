@@ -36,6 +36,12 @@ const (
 	RGBA            TextureFormat = C.GL_RGBA
 	LUMINANCE       TextureFormat = C.GL_LUMINANCE
 	LUMINANCE_ALPHA TextureFormat = C.GL_LUMINANCE_ALPHA
+	RED             TextureFormat = C.GL_RED
+	RG              TextureFormat = C.GL_RG
+	RED_INTEGER     TextureFormat = C.GL_RED_INTEGER
+	RG_INTEGER      TextureFormat = C.GL_RG_INTEGER
+	RGB_INTEGER     TextureFormat = C.GL_RGB_INTEGER
+	RGBA_INTEGER    TextureFormat = C.GL_RGBA_INTEGER
 
 	TEXTURE_MAG_FILTER TextureParameter = C.GL_TEXTURE_MAG_FILTER
 	TEXTURE_MIN_FILTER TextureParameter = C.GL_TEXTURE_MIN_FILTER
@@ -120,7 +126,7 @@ func BindTexture(target TextureTarget, texture Texture) {
 // 	C.glCompressedTexSubImage2D(C.GLenum(target), C.GLint(level), C.GLint(xoffset), C.GLint(yoffset), C.GLsizei(width), C.GLsizei(height), C.GLenum(format), unsafe.Sizeof(data[0])*len(data), data)
 // }
 
-func CopyTexImage2D(target TextureTarget, level int, internalformat TextureFormat, x, y, width, height int) {
+func CopyTexImage2D(target TextureTarget, level int, internalformat InternalFormat, x, y, width, height int) {
 	C.glCopyTexImage2D(C.GLenum(target), C.GLint(level), C.GLenum(internalformat), C.GLint(x), C.GLint(y), C.GLsizei(width), C.GLsizei(height), 0)
 }
 
@@ -166,11 +172,11 @@ func GetTexParameteri(target TextureTarget, pname TextureParameter) int {
 	return int(param)
 }
 
-func TexImage2D(target TextureTarget, level int, internalformat TextureFormat, width, height int, datatype DataType, pixels []uint8) {
+func TexImage2D(target TextureTarget, level int, internalformat InternalFormat, width, height int, format TextureFormat, datatype DataType, pixels []uint8) {
 	if pixels != nil {
-		C.glTexImage2D(C.GLenum(target), C.GLint(level), C.GLint(internalformat), C.GLsizei(width), C.GLsizei(height), 0, C.GLenum(internalformat), C.GLenum(datatype), unsafe.Pointer(&pixels[0]))
+		C.glTexImage2D(C.GLenum(target), C.GLint(level), C.GLint(internalformat), C.GLsizei(width), C.GLsizei(height), 0, C.GLenum(format), C.GLenum(datatype), unsafe.Pointer(&pixels[0]))
 	} else {
-		C.glTexImage2D(C.GLenum(target), C.GLint(level), C.GLint(internalformat), C.GLsizei(width), C.GLsizei(height), 0, C.GLenum(internalformat), C.GLenum(datatype), unsafe.Pointer(nil))
+		C.glTexImage2D(C.GLenum(target), C.GLint(level), C.GLint(internalformat), C.GLsizei(width), C.GLsizei(height), 0, C.GLenum(format), C.GLenum(datatype), unsafe.Pointer(nil))
 	}
 }
 

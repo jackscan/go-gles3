@@ -26,6 +26,7 @@ import (
 
 type Error C.GLenum
 type DataType C.GLenum
+type InternalFormat C.GLenum
 type InfoType C.GLenum
 type DrawMode C.GLenum
 type BlendMode C.GLenum
@@ -245,17 +246,76 @@ const (
 	INCR_WRAP StencilOperation = C.GL_INCR_WRAP
 	DECR_WRAP StencilOperation = C.GL_DECR_WRAP
 
-	BYTE                   DataType = C.GL_BYTE
-	UNSIGNED_BYTE          DataType = C.GL_UNSIGNED_BYTE
-	SHORT                  DataType = C.GL_SHORT
-	UNSIGNED_SHORT         DataType = C.GL_UNSIGNED_SHORT
-	INT                    DataType = C.GL_INT
-	UNSIGNED_INT           DataType = C.GL_UNSIGNED_INT
-	FLOAT                  DataType = C.GL_FLOAT
-	FIXED                  DataType = C.GL_FIXED
-	UNSIGNED_SHORT_4_4_4_4 DataType = C.GL_UNSIGNED_SHORT_4_4_4_4
-	UNSIGNED_SHORT_5_5_5_1 DataType = C.GL_UNSIGNED_SHORT_5_5_5_1
-	UNSIGNED_SHORT_5_6_5   DataType = C.GL_UNSIGNED_SHORT_5_6_5
+	BYTE                           DataType = C.GL_BYTE
+	UNSIGNED_BYTE                  DataType = C.GL_UNSIGNED_BYTE
+	SHORT                          DataType = C.GL_SHORT
+	UNSIGNED_SHORT                 DataType = C.GL_UNSIGNED_SHORT
+	INT                            DataType = C.GL_INT
+	UNSIGNED_INT                   DataType = C.GL_UNSIGNED_INT
+	FLOAT                          DataType = C.GL_FLOAT
+	FIXED                          DataType = C.GL_FIXED
+	UNSIGNED_SHORT_4_4_4_4         DataType = C.GL_UNSIGNED_SHORT_4_4_4_4
+	UNSIGNED_SHORT_5_5_5_1         DataType = C.GL_UNSIGNED_SHORT_5_5_5_1
+	UNSIGNED_SHORT_5_6_5           DataType = C.GL_UNSIGNED_SHORT_5_6_5
+	HALF_FLOAT                     DataType = C.GL_HALF_FLOAT
+	UNSIGNED_INT_5_9_9_9_REV       DataType = C.GL_UNSIGNED_INT_5_9_9_9_REV
+	UNSIGNED_INT_10F_11F_11F_REV   DataType = C.GL_UNSIGNED_INT_10F_11F_11F_REV
+	UNSIGNED_INT_2_10_10_10_REV    DataType = C.GL_UNSIGNED_INT_2_10_10_10_REV
+	UNSIGNED_INT_24_8              DataType = C.GL_UNSIGNED_INT_24_8
+	FLOAT_32_UNSIGNED_INT_24_8_REV DataType = C.GL_FLOAT_32_UNSIGNED_INT_24_8_REV
+
+	R8                 InternalFormat = C.GL_R8
+	RG8                InternalFormat = C.GL_RG8
+	RGB8               InternalFormat = C.GL_RGB8
+	RGBA8              InternalFormat = C.GL_RGBA8
+	SRGB               InternalFormat = C.GL_SRGB
+	SRGB8              InternalFormat = C.GL_SRGB8
+	SRGB8_ALPHA8       InternalFormat = C.GL_SRGB8_ALPHA8
+	R8I                InternalFormat = C.GL_R8I
+	RG8I               InternalFormat = C.GL_RG8I
+	RGB8I              InternalFormat = C.GL_RGB8I
+	RGBA8I             InternalFormat = C.GL_RGBA8I
+	R8UI               InternalFormat = C.GL_R8UI
+	RG8UI              InternalFormat = C.GL_RG8UI
+	RGB8UI             InternalFormat = C.GL_RGB8UI
+	RGBA8UI            InternalFormat = C.GL_RGBA8UI
+	R16I               InternalFormat = C.GL_R16I
+	RG16I              InternalFormat = C.GL_RG16I
+	RGB16I             InternalFormat = C.GL_RGB16I
+	RGBA16I            InternalFormat = C.GL_RGBA16I
+	R16UI              InternalFormat = C.GL_R16UI
+	RG16UI             InternalFormat = C.GL_RG16UI
+	RGB16UI            InternalFormat = C.GL_RGB16UI
+	RGBA16UI           InternalFormat = C.GL_RGBA16UI
+	R16F               InternalFormat = C.GL_R16F
+	RG16F              InternalFormat = C.GL_RG16F
+	RGB16F             InternalFormat = C.GL_RGB16F
+	RGBA16F            InternalFormat = C.GL_RGBA16F
+	R32I               InternalFormat = C.GL_R32I
+	RG32I              InternalFormat = C.GL_RG32I
+	RGB32I             InternalFormat = C.GL_RGB32I
+	RGBA32I            InternalFormat = C.GL_RGBA32I
+	R32UI              InternalFormat = C.GL_R32UI
+	RG32UI             InternalFormat = C.GL_RG32UI
+	RGB32UI            InternalFormat = C.GL_RGB32UI
+	RGBA32UI           InternalFormat = C.GL_RGBA32UI
+	R32F               InternalFormat = C.GL_R32F
+	RG32F              InternalFormat = C.GL_RG32F
+	RGB32F             InternalFormat = C.GL_RGB32F
+	RGBA32F            InternalFormat = C.GL_RGBA32F
+	R11F_G11F_B10F     InternalFormat = C.GL_R11F_G11F_B10F
+	RGBA4              InternalFormat = C.GL_RGBA4
+	RGB565             InternalFormat = C.GL_RGB565
+	RGB5_A1            InternalFormat = C.GL_RGB5_A1
+	RGB9_E5            InternalFormat = C.GL_RGB9_E5
+	RGB10_A2           InternalFormat = C.GL_RGB10_A2
+	RGB10_A2UI         InternalFormat = C.GL_RGB10_A2UI
+	DEPTH_COMPONENT16  InternalFormat = C.GL_DEPTH_COMPONENT16
+	DEPTH_COMPONENT24  InternalFormat = C.GL_DEPTH_COMPONENT24
+	DEPTH_COMPONENT32F InternalFormat = C.GL_DEPTH_COMPONENT32F
+	DEPTH24_STENCIL8   InternalFormat = C.GL_DEPTH24_STENCIL8
+	DEPTH32F_STENCIL8  InternalFormat = C.GL_DEPTH32F_STENCIL8
+	STENCIL_INDEX8     InternalFormat = C.GL_STENCIL_INDEX8
 
 	NO_ERROR                      Error = C.GL_NO_ERROR
 	INVALID_ENUM                  Error = C.GL_INVALID_ENUM

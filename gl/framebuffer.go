@@ -28,7 +28,6 @@ type RenderbufferTarget C.GLenum
 type FramebufferStatus C.GLenum
 type FramebufferAttachment C.GLenum
 type FramebufferAttachmentParameter C.GLenum
-type InternalFormat C.GLenum
 
 const (
 	RENDERBUFFER_WIDTH           = C.GL_RENDERBUFFER_WIDTH
@@ -78,12 +77,6 @@ const (
 	FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT FramebufferStatus = C.GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT
 	FRAMEBUFFER_INCOMPLETE_DIMENSIONS         FramebufferStatus = C.GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS
 	FRAMEBUFFER_UNSUPPORTED                   FramebufferStatus = C.GL_FRAMEBUFFER_UNSUPPORTED
-
-	RGBA4             InternalFormat = C.GL_RGBA4
-	RGB5_A1           InternalFormat = C.GL_RGB5_A1
-	RGB565            InternalFormat = C.GL_RGB565
-	DEPTH_COMPONENT16 InternalFormat = C.GL_DEPTH_COMPONENT16
-	STENCIL_INDEX8    InternalFormat = C.GL_STENCIL_INDEX8
 )
 
 func GenFramebuffers(buffers []Framebuffer) {
