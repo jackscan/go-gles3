@@ -84,6 +84,12 @@ func (program *Program) DetachShader(shader Shader) {
 	program.shadersValid = false
 }
 
+func (shader Shader) Type() ShaderType {
+	stype := C.GLint(0)
+	C.glGetShaderiv(C.GLuint(shader), C.GL_SHADER_TYPE, &stype)
+	return ShaderType(stype)
+}
+
 // func (program *Program) GetActiveAttrib(index uint) (size int, atype int, name string) {
 
 // 	nameBuf := make([]byte, MAX_ATTRIBUTE_LENGTH)
@@ -186,7 +192,7 @@ func (shader Shader) Compile() {
 		log := (*C.GLchar)(C.malloc(C.size_t(loglen)))
 		defer C.free(unsafe.Pointer(log))
 		C.glGetShaderInfoLog(C.GLuint(shader), C.GLsizei(loglen), nil, log)
-		panic(fmt.Errorf("Failed to compile shader: %s", C.GoString((*C.char)(log))))
+		panic(fmt.Errorf("Failed to compile %s: %s", shader.Type(), C.GoString((*C.char)(log))))
 	}
 }
 
