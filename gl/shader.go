@@ -47,6 +47,10 @@ func CreateShader(stype ShaderType) Shader {
 	return Shader(C.glCreateShader(C.GLenum(stype)))
 }
 
+func (program *Program) Id() uint {
+	return uint(program.id)
+}
+
 func (program *Program) Shaders() []Shader {
 	if !program.shadersValid {
 		nshaders := C.GLint(0)
