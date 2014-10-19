@@ -91,6 +91,10 @@ func BufferSubData(target BufferTarget, offset int, data []float32) {
 	C.glBufferSubData(C.GLenum(target), C.GLintptr(offset), C.GLsizeiptr(unsafe.Sizeof(data[0])*uintptr(len(data))), unsafe.Pointer(&data[0]))
 }
 
+func CopyBufferSubData(readTarget, writeTarget BufferTarget, readOffset, writeOffset, size int) {
+	C.glCopyBufferSubData(C.GLenum(readTarget), C.GLenum(writeTarget), C.GLintptr(readOffset), C.GLintptr(writeOffset), C.GLsizeiptr(size))
+}
+
 func GetBufferParameter(target BufferTarget, param BufferParameter) int {
 	value := C.GLint(0)
 	C.glGetBufferParameteriv(C.GLenum(target), C.GLenum(param), &value)
