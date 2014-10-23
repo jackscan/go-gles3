@@ -87,7 +87,7 @@ func DeleteBuffers(buffers []Buffer) {
 	C.glDeleteBuffers(C.GLsizei(len(buffers)), (*C.GLuint)(&buffers[0]))
 }
 
-func BufferSubData(target BufferTarget, offset int, data []float32) {
+func BufferSubDataf(target BufferTarget, offset int, data []float32) {
 	C.glBufferSubData(C.GLenum(target), C.GLintptr(offset), C.GLsizeiptr(unsafe.Sizeof(data[0])*uintptr(len(data))), unsafe.Pointer(&data[0]))
 }
 
